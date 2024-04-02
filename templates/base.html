@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Wiki</title>
+</head>
+<body>
+    <h1>Welcome to My Wiki</h1>
+    <ul>
+        {% for page_title, page_info in pages.items() %}
+            <li>
+                <h2>{{ page_title }}</h2>
+                <div>{{ page_info.content|safe }}</div>
+                {% if page_info.images %}
+                        {% for image_url in page_info.images %}
+                            <li><img src="{{ image_url }}" alt="Image"></li>
+                        {% endfor %}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
