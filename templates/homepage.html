@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+</head>
+<body>
+    <h1>Homepage</h1>
+    <h2>Articles</h2>
+    <ul>
+        {% for article_title in articles %}
+            <li><a href="{{ url_for('page_content', title=article_title) }}">{{ article_title }}</a></li>
+        {% endfor %}
+    </ul>
+    <h2>Projects</h2>
+    <ul>
+        {% for project_title in projects %}
+            <li><a href="{{ url_for('page_content', title=project_title) }}">{{ project_title }}</a></li>
+        {% endfor %}
+    </ul>
+    <h2>Newsletters</h2>
+    <ul>
+        {% for newsletter_title in newsletters %}
+            <li><a href="{{ url_for('page_content', title=newsletter_title) }}">{{ newsletter_title }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
