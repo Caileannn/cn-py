@@ -1,6 +1,7 @@
 from flask import Flask, render_template, Response
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 class WikiApp(Flask):
     
@@ -22,7 +23,7 @@ class WikiApp(Flask):
 			'titles': all_pages_string,
 			'format': 'json',
 			'prop': 'pageimages',
-			'pithumbsize': 700
+			'pithumbsize': 700,
 		})
         thumb_data = thumb_resp.json()
         pages_thumb_data = thumb_data.get('query', {}).get('pages', {})
@@ -32,20 +33,32 @@ class WikiApp(Flask):
             pageid = value.get('pageid')
             source = value.get('thumbnail', {}).get('source')
             for category, pages in category_page_list.items():
+                #	print(category, pages)
                 if title in pages:
-                    
-                    category_page_list[category][pages.index(title)] = {'title': title, 'pageid': pageid, 'source': source}
+                    for index, page_title in enumerate(category_page_list[category]):
+                        if title == page_title:
+                            category_page_list[category][page_title].update({'pageid':pageid, 'title': title, 'source': source })
+                            
         return category_page_list
+
             
             
     def fetch_all_pages(self, categories):
         category_page_list = {} 
         
         for category in categories:
-            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:'+category+']]', 'format': 'json', 'formatversion': '2'})
+            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:'+category+']]|?Article:Date', 'format': 'json', 'formatversion': '2'})
             data = response.json()
-            page_titles = [page['fulltext'] for page in data['query']['results'].values()]
-            category_page_list[category] = page_titles    
+            page_title_timestamps = {}
+            for page_title, page_data in data['query']['results'].items():
+                if 'printouts' in page_data and 'Article:Date' in page_data['printouts']:
+                    raw_timestamp = page_data['printouts']['Article:Date'][0]['raw']
+                    raw_timestamp = raw_timestamp[2:]
+                    lol = datetime.strptime(raw_timestamp, "%Y/%m/%d")
+                    formatted_date = lol.strftime("%d.%m.%Y")
+                    page_title_timestamps[page_title] = {'date': formatted_date}
+                    
+            category_page_list[category] = page_title_timestamps
         return category_page_list
             
     
@@ -53,11 +66,9 @@ class WikiApp(Flask):
         # Fetch pages for articles, projects, and newsletters
         categories = ['Articles', 'Projects', 'Newsletters', 'MainNavigation']
         category_page_list = self.fetch_all_pages(categories)
-        print(category_page_list)
         updated_cat_list = self.fetch_pages_cat(category_page_list)
-        print(updated_cat_list)
-
         articles = updated_cat_list.get('Articles', [])
+        print(articles)
         projects = updated_cat_list.get('Projects', [])
         newsletters = updated_cat_list.get('Newsletters', [])
         nav_elements = updated_cat_list.get('MainNavigation', [])
