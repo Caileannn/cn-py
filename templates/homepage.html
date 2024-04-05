@@ -17,7 +17,7 @@
 			</div>
 			<div class='nav-element-cont'>
 				{% for nav_element in nav_elements %}
-				<div class='nav-element'><a href="{{ url_for('page_content', title=nav_element) }}">{{ nav_element }}</a><div class='spinning-star'>🞱</div></div>
+				<div class='nav-element'><a href="{{ url_for('page_content', title=nav_element.title) }}">{{ nav_element.title }}</a><div class='spinning-star'>🞱</div></div>
 				{% endfor %}
 			</div>
 		</div>
@@ -27,19 +27,19 @@
 			<div class='section'>
 				<div class='section-title'><div style="display: inline-flex; text-align: center; justify-content: center; align-items: center; line-height: 100%; padding: 3.3px; font-size: 20px; font-style: italic; object-fit: contain; font-family: monospace; color: white; text-shadow: white 0px 5px 5px; text-decoration: none;">articles&nbsp;<img src="https://i-love-everything.com/buttons/img/7.gif" style="max-height: 32px;"></div></div>
 				{% for article in articles %}
-					<div class='section-element'><a href="{{ url_for('page_content', title=article) }}">{{ article }} ↗</a></div>
+					<div class='section-element'><a href="{{ url_for('page_content', title=article.title) }}">{{ article.title }} ↗</a></div>
 				{% endfor %}
 			</div>
 			<div class='section'>
 				<div class='section-title'><div style="display: inline-flex; text-align: center; justify-content: center; align-items: center; line-height: 100%; padding: 2.2px; font-size: 20px; font-style: oblique; object-fit: contain; font-family: monospace;  color: white; text-shadow: red 0px 2px 5px;">newsletters<br><img src="https://i-love-everything.com/buttons/img/34.gif" style="max-height: 32px;"></div></div>
-				{% for newsletter in newsletters %}
-					<div class='section-element'><a href="{{ url_for('page_content', title=newsletter) }}">{{ newsletter }} ↗</a></div>
+				{% for newsletter in articles %}
+					<div class='section-element'><a href="{{ url_for('page_content', title=newsletter.title) }}">{{ newsletter.title }} ↗</a></div>
 				{% endfor %}
 			</div>
 			<div class='section'>
 				<div class='section-title'><div style="display: inline-flex; text-align: center; justify-content: center; align-items: center; line-height: 100%; padding: 3.3px; font-size: 20px; font-style: normal; object-fit: contain; font-family: monospace; color: white; border: 1px solid white;">projects<img src="https://i-love-everything.com/buttons/img/26.gif" style="max-height: 32px;"></div></div>
-				{% for project in projects %}
-					<div class='section-element'><a href="{{ url_for('page_content', title=project) }}">{{ project }} ↗</a></div>
+				{% for project in articles %}
+					<div class='section-element'><a href="{{ url_for('page_content', title=project.title) }}">{{ project.title }} ↗</a></div>
 				{% endfor %}
 			</div>
 		</div>
