@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, Response
 import requests
 from bs4 import BeautifulSoup
 
@@ -13,6 +13,7 @@ class WikiApp(Flask):
         # Define routes
         self.route('/', methods=['GET'])(self.homepage)
         self.route('/<string:title>', methods=['GET'])(self.page_content)
+        self.route('/favicon.ico')(self.favicon)
         
     def fetch_pages(self, category):
         # Make a request to MediaWiki API using ask action to get all pages in the specified category
@@ -28,20 +29,23 @@ class WikiApp(Flask):
         articles = self.fetch_pages('Articles')
         projects = self.fetch_pages('Projects')
         newsletters = self.fetch_pages('Newsletters')
+        nav_elements = self.fetch_pages('MainNavigation')
         
-        return render_template('homepage.html', articles=articles, projects=projects, newsletters=newsletters)
+        
+        return render_template('homepage.html', articles=articles, projects=projects, newsletters=newsletters, nav_elements=nav_elements)
     
     def page_content(self, title):
         # Make a request to MediaWiki API to get content of a specific page
         response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'parse', 'page': title, 'format': 'json'})
         data = response.json()
+        print(title)
         # Extract page title and content
         page_title = data['parse']['title']
         page_content = data['parse']['text']['*']
-        page_content = self.fix_images(page_content)
+        page_content = self.fix_html(page_content)
         return render_template('page_content.html', title=page_title, content=page_content)
     
-    def fix_images(self, page_content):
+    def fix_html(self, page_content):
         soup = BeautifulSoup(page_content, 'html.parser')
 
         # Find all img tags
@@ -72,6 +76,11 @@ class WikiApp(Flask):
             file_link.unwrap()
         
         return soup.prettify()
+    
+    # Route for favicon.ico to prevent Flask from raising an error
+    def favicon(self):
+        return Response('', status=200)
+ 
 
 if __name__ == '__main__':
     app = WikiApp(__name__)

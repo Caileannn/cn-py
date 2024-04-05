@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+	background-color: black;
+	color: white;
+	margin: auto;
+	padding: 20px;
+	font-family: "Space Mono", monospace;
+}
+
+.main-cont {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	gap: 10px;
+}
+
+.header-title {
+	font-size: 40px;
+}
+
+.header-summary {
+	font-size: 15px;
+	font-style: italic;
+}
+
+.nav-cont {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 5px;
+}
+
+.nav-element-cont {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	text-transform: lowercase;
+	font-size: 20px;
+}
+
+.nav-element-cont a{
+	text-decoration: none;
+	color: white;
+}
+
+.nav-element {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+}
+
+.line {
+	background-color: white;
+	width: 100%;
+	height: 1px;
+}
+
+.spinning-star {
+            transform-origin: center; /* Set the transform origin to the center */
+            animation: spin 5s linear infinite; /* Apply the spin animation */
+}
+
+.section-cont {
+	width: 100%;
+	height: 100%;
+	min-height: 750px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 10px;
+	background-color: rgb(54, 54, 255); /* Background color for demonstration */
+	border-radius: 30% 70% 70% 30% / 46% 30% 70% 54% 
+}
+
+.section {
+	width: calc(100% / 3); /* Each div takes up one-third of the container */
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	height: 100%;
+}
+
+.section-title {
+
+}
+
+.section-element {
+	text-transform: lowercase;
+}
+
+.section-element a {
+	text-decoration: none;
+	color: white;
+}
+
+
+/* Keyframes for the spin animation */
+@keyframes spin {
+	0% { transform: rotate(0deg); } /* Initial rotation */
+	100% { transform: rotate(360deg); } /* Final rotation */
+}

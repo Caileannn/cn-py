@@ -3,27 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+    <title>concept null</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/styles.css') }}">
 </head>
 <body>
-    <h1>Homepage</h1>
-    <h2>Articles</h2>
-    <ul>
-        {% for article_title in articles %}
-            <li><a href="{{ url_for('page_content', title=article_title) }}">{{ article_title }}</a></li>
-        {% endfor %}
-    </ul>
-    <h2>Projects</h2>
-    <ul>
-        {% for project_title in projects %}
-            <li><a href="{{ url_for('page_content', title=project_title) }}">{{ project_title }}</a></li>
-        {% endfor %}
-    </ul>
-    <h2>Newsletters</h2>
-    <ul>
-        {% for newsletter_title in newsletters %}
-            <li><a href="{{ url_for('page_content', title=newsletter_title) }}">{{ newsletter_title }}</a></li>
-        {% endfor %}
-    </ul>
+	<div class='main-cont'>
+		<div class='nav-cont'>
+			<div class='header-title'>
+				CONCEPTNULL
+			</div>
+			<div class='header-summary'>
+				summary about us
+			</div>
+			<div class='nav-element-cont'>
+				{% for nav_element in nav_elements %}
+				<div class='nav-element'><a href="{{ url_for('page_content', title=nav_element) }}">{{ nav_element }}</a><div class='spinning-star'>🞱</div></div>
+				{% endfor %}
+			</div>
+		</div>
+		<span class='line'></span>
+		
+		<div class='section-cont'>
+			<div class='section'>
+				<div class='section-title'><div style="display: inline-flex; text-align: center; justify-content: center; align-items: center; line-height: 100%; padding: 3.3px; font-size: 20px; font-style: italic; object-fit: contain; font-family: monospace; color: white; text-shadow: white 0px 5px 5px; text-decoration: none;">articles&nbsp;<img src="https://i-love-everything.com/buttons/img/7.gif" style="max-height: 32px;"></div></div>
+				{% for article in articles %}
+					<div class='section-element'><a href="{{ url_for('page_content', title=article) }}">{{ article }} ↗</a></div>
+				{% endfor %}
+			</div>
+			<div class='section'>
+				<div class='section-title'><div style="display: inline-flex; text-align: center; justify-content: center; align-items: center; line-height: 100%; padding: 2.2px; font-size: 20px; font-style: oblique; object-fit: contain; font-family: monospace;  color: white; text-shadow: red 0px 2px 5px;">newsletters<br><img src="https://i-love-everything.com/buttons/img/34.gif" style="max-height: 32px;"></div></div>
+				{% for newsletter in newsletters %}
+					<div class='section-element'><a href="{{ url_for('page_content', title=newsletter) }}">{{ newsletter }} ↗</a></div>
+				{% endfor %}
+			</div>
+			<div class='section'>
+				<div class='section-title'><div style="display: inline-flex; text-align: center; justify-content: center; align-items: center; line-height: 100%; padding: 3.3px; font-size: 20px; font-style: normal; object-fit: contain; font-family: monospace; color: white; border: 1px solid white;">projects<img src="https://i-love-everything.com/buttons/img/26.gif" style="max-height: 32px;"></div></div>
+				{% for project in projects %}
+					<div class='section-element'><a href="{{ url_for('page_content', title=project) }}">{{ project }} ↗</a></div>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div style="display: inline-flex; text-align: center; justify-content: center; align-items: center; line-height: 100%; padding: 3.3px; font-size: 12px; font-style: normal; object-fit: contain; background: rgb(0, 0, 0); color: rgb(255, 255, 255); text-shadow: rgb(8, 0, 255) 0px 3px 3px; flex-wrap: wrap;"><span style="display:flex;">hypertext connection<img src="https://i-love-everything.com/buttons/img/67.gif" style="max-height: 32px;"></span><span style="width:100%;text-shadow:0 0 5px #fff">𓆝 𓆟 𓆞 𓆝</span></div>
+	</div>
 </body>
 </html>
