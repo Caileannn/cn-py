@@ -64,7 +64,7 @@ class WikiApp(Flask):
     
     def homepage(self):
         # Fetch pages for articles, projects, and newsletters
-        categories = ['Articles', 'Projects', 'Newsletters', 'MainNavigation']
+        categories = ['Articles', 'Projects', 'Newsletters']
         category_page_list = self.fetch_all_pages(categories)
         updated_cat_list = self.fetch_pages_cat(category_page_list)
         articles = updated_cat_list.get('Articles', [])
@@ -103,13 +103,24 @@ class WikiApp(Flask):
             # Append 'https://wiki.conceptnull.org' to the src attribute
             img['src'] = 'https://wiki.conceptnull.org' + img['src']
               
+        # Find all a tags with href not containing 'index.php'
+        links = soup.find_all('a', href=lambda href: href and 'index.php' not in href and not href.startswith('#') and not href.startswith('/File:'))
+        # Loop through each link and modify its href attribute
+        for link in links:
+            # Add _blank to href
+            link['target'] = '_blank'
+            link.string = link.string.strip() + " ↘"
+            
         # Find all a tags with href containing 'index.php'
         links = soup.find_all('a', href=lambda href: href and 'index.php' in href)
-
         # Loop through each link and modify its href attribute
         for link in links:
             # Remove 'index.php' from the href attribute
             link['href'] = link['href'].replace('/index.php', '')
+           
+            
+        
+        
        
         # Remove any element with class 'mw-editsection'
         edit_sections = soup.find_all(class_='mw-editsection')
@@ -121,9 +132,16 @@ class WikiApp(Flask):
         file_description_tags = soup.find_all('a', class_='mw-file-description')
         for file_link in file_description_tags:
             file_link.unwrap()
+            
+        soup = self.remove_thumbnail_img(soup)
         
         return soup.prettify()
     
+    def remove_thumbnail_img(self, soup):
+        thumbnail = soup.find_all(attrs={"typeof": "mw:File/Thumb"})
+        for img in thumbnail:
+            img.decompose()
+        return soup
     # Route for favicon.ico to prevent Flask from raising an error
     def favicon(self):
         return Response('', status=200)

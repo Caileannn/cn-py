@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% block title %}Ø | {{ title }}{% endblock %}
 {% block content %}
-<h1>{{ title }}</h1>
-    <div>
-        {{ content | safe }}
-    </div>
+<div class='content-cont'>
+	<h1 class='content-header'>{{ title }}</h1>
+    
+    {{ content | safe }}
+	<div class='foot'></div>
+</div>
+
 {% endblock %}
