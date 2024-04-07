@@ -68,12 +68,11 @@ class WikiApp(Flask):
         category_page_list = self.fetch_all_pages(categories)
         updated_cat_list = self.fetch_pages_cat(category_page_list)
         articles = updated_cat_list.get('Articles', [])
-        print(articles)
         projects = updated_cat_list.get('Projects', [])
         newsletters = updated_cat_list.get('Newsletters', [])
-        nav_elements = updated_cat_list.get('MainNavigation', [])
+        nav_elements = self.get_nav_menu()
         
-        return render_template('homepage.html', articles=articles, projects=projects, newsletters=newsletters, nav_elements=nav_elements)
+        return render_template('home.html', articles=articles, projects=projects, newsletters=newsletters, nav_elements=nav_elements)
     
     def page_content(self, title):
         # Make a request to MediaWiki API to get content of a specific page
@@ -83,7 +82,15 @@ class WikiApp(Flask):
         page_title = data['parse']['title']
         page_content = data['parse']['text']['*']
         page_content = self.fix_html(page_content)
-        return render_template('page_content.html', title=page_title, content=page_content)
+        return render_template('article.html', nav_elements=self.get_nav_menu(), title=page_title, content=page_content)
+    
+    def get_nav_menu(self):
+        response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:MainNavigation]]', 'format': 'json', 'formatversion': '2'})
+        data = response.json()
+        main_navigation_elements = {}
+        for page_title, page_data in data['query']['results'].items():
+            main_navigation_elements[page_title] = {'title':page_data.get('fulltext', '')}
+        return main_navigation_elements
     
     def fix_html(self, page_content):
         soup = BeautifulSoup(page_content, 'html.parser')

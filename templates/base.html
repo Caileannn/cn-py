@@ -1,22 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Wiki</title>
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/styles.css') }}">
 <body>
-    <h1>Welcome to My Wiki</h1>
-    <ul>
-        {% for page_title, page_info in pages.items() %}
-            <li>
-                <h2>{{ page_title }}</h2>
-                <div>{{ page_info.content|safe }}</div>
-                {% if page_info.images %}
-                        {% for image_url in page_info.images %}
-                            <li><img src="{{ image_url }}" alt="Image"></li>
-                        {% endfor %}
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+	<div class='main-cont'>
+		<div class='nav-cont'>
+			<div class='header-title'>
+				<a href="/">CØNCEPTNULL</a>
+			</div>
+			<div class='nav-element-cont'>
+				{% for key, element in nav_elements.items() %}
+				<div class='nav-element'><a href="{{ url_for('page_content', title=element.title) }}">{{ element.title }}</a><div class='spinning-star'>🞱</div></div>
+				{% endfor %}
+			</div>
+			
+		</div>
+		<div class="content">
+		{% block content %}
+		{% endblock %}
+		</div>
+	</div>
+	<div class="footer">
+		<a href="https://wiki.conceptnull.org/" target="_blank"><div style="display: inline-flex; text-align: center; justify-content: center; align-items: center; line-height: 100%; padding: 3.3px; font-size: 12px; font-style: normal; object-fit: contain; background: rgb(255, 255, 255); color: rgb(0, 0, 0); text-shadow: rgb(8, 0, 255) 0px 3px 3px; flex-wrap: wrap;"><span style="display:flex;">hypertext connection<img src="https://i-love-everything.com/buttons/img/67.gif" style="max-height: 32px;"></span><span style="width:100%;text-shadow:0 0 5px #fff">𓆝 𓆟 𓆞 𓆝</span></div></a>
+	</div>
 </body>
 </html>

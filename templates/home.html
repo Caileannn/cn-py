@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %} Ø | Home{% endblock %}
+{% block content %}
+<div class='section-cont'>
+	<div class='section'>
+		<div class='section-title'><div style="display: inline-flex; text-align: center; justify-content: center; align-items: center; line-height: 100%; padding: 3.3px; font-size: 25px; font-style: italic; object-fit: contain; font-family: monospace; color: white; text-shadow: white 0px 5px 5px; text-decoration: none; width: 100%;">articles&nbsp;<img src="https://i-love-everything.com/buttons/img/7.gif" style="max-height: 32px;"></div></div>
+		<div class='section-group'>
+		{% for key, values in articles.items() %}
+			<div class='section-element'><a href="{{ url_for('page_content', title=values.title) }}">↘ {{ values.title}}</a></div>
+			<div class='section-date'>🙿 {{ values.date }}</div>
+			<div class='section-img'><a href="{{ url_for('page_content', title=values.title) }}"><img src="{{ values.source }}"></a></div>
+		{% endfor %}
+		</div>
+	</div>
+	<div class='section'>
+		<div class='section-title'><div style="display: inline-flex; text-align: center; justify-content: center; align-items: center; line-height: 100%; padding: 2.2px; font-size: 25px; font-style: oblique; object-fit: contain; font-family: monospace;  color: white; text-shadow: red 0px 2px 5px; width: 100%;">newsletters<br><img src="https://i-love-everything.com/buttons/img/34.gif" style="max-height: 32px;"></div></div>
+		<div class='section-group'>
+			{% for key, values in newsletters.items() %}
+				<div class='section-element'><a href="{{ url_for('page_content', title=values.title) }}">↘ {{ values.title }}</a></div>
+				<div class='section-date'>🙿 {{ values.date }}</div>
+				<div class='section-img'><a href="{{ url_for('page_content', title=values.title) }}"><img src="{{ values.source}}"></a></div>
+			{% endfor %}
+			</div>
+	</div>
+	<div class='section'>
+		<div class='section-title'><div style="display: inline-flex; text-align: center; justify-content: center; align-items: center; line-height: 100%; padding: 3.3px; font-size: 25px; font-style: normal; object-fit: contain; font-family: monospace; color: white; border: 0px solid white; width: 100%;">projects<img src="https://i-love-everything.com/buttons/img/26.gif" style="max-height: 32px;"></div></div>
+		<div class='section-group'>
+			{% for key, values in projects.items() %}
+				<div class='section-element'><a href="{{ url_for('page_content', title=values.title) }}">↘ {{ values.title }}</a></div>
+				<div class='section-date'>🙿 {{ values.date }}</div>
+				<div class='section-img'><a href="{{ url_for('page_content', title=values.title) }}"><img src="{{ values.source }}"></a></div>
+			{% endfor %}
+			</div>
+	</div>
+</div>
+{% endblock %}
