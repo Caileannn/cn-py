@@ -15,6 +15,7 @@ class WikiApp(Flask):
         self.route('/', methods=['GET'])(self.homepage)
         self.route('/<string:title>', methods=['GET'])(self.page_content)
         self.route('/favicon.ico')(self.favicon)
+        self.route('/archive/<string:collection>', methods=['GET'])(self.get_collection)
     
     def fetch_pages_cat(self, category_page_list):
         all_pages_string = '|'.join(page for pages in category_page_list.values() for page in pages)
@@ -45,10 +46,10 @@ class WikiApp(Flask):
             
     def fetch_all_pages(self, categories):
         category_page_list = {} 
-        
         for category in categories:
             response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:'+category+']]|?Article:Date', 'format': 'json', 'formatversion': '2'})
             data = response.json()
+            print(data)
             page_title_timestamps = {}
             for page_title, page_data in data['query']['results'].items():
                 if 'printouts' in page_data and 'Article:Date' in page_data['printouts']:
@@ -142,6 +143,12 @@ class WikiApp(Flask):
         for img in thumbnail:
             img.decompose()
         return soup
+    
+    def get_collection(self, collection):
+        resp = self.fetch_all_pages([collection])
+        data = self.fetch_pages_cat(resp)
+        return render_template('collection.html', nav_elements=self.get_nav_menu(), title=collection, collection=resp[collection])
+    
     # Route for favicon.ico to prevent Flask from raising an error
     def favicon(self):
         return Response('', status=200)

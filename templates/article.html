@@ -3,8 +3,9 @@
 {% block content %}
 <div class='content-cont'>
 	<h1 class='content-header'>{{ title }}</h1>
-    
-    {{ content | safe }}
+    <div class='article-cont'>
+    	{{ content | safe }}
+	</div>
 	<div class='foot'></div>
 </div>
 

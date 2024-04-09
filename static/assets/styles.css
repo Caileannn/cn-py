@@ -100,8 +100,11 @@ body {
 	height: 100vh;
 	margin-left: 40px;
 	margin-top: 100px;
-	padding-right: 400px;
+	margin-right: 40px;
+}
 
+.article-cont {
+	width: 60%;
 }
 
 .content-cont h1{
@@ -129,7 +132,7 @@ body {
 	line-height: 30px;
 }
 
-.content-cont a {
+.content-cont .article-cont a {
 	color: black;
 	text-decoration: none;
 	background-color: white;
@@ -171,12 +174,66 @@ body {
 }
 
 .section-cont {
-	width: 100% ;
+	width: 100vw;
 	height: 100vh;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 }
+
+.collection-cont {
+	width: 100% ;
+	height: 100vh;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-content: baseline;
+	flex-wrap: wrap;
+	gap:60px;
+}
+
+.collection-title {
+	border: 2px;
+	border-radius: 20px;
+	border-style: solid;
+	border-color: white;
+	padding: 10px;
+}
+
+.collection-element {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 20px;
+}
+
+.collection-header{
+	font-size: 20px;
+	margin-top: 40px;
+}
+
+.content-cont .collection-cont a {
+	text-decoration: underline;
+    color: white;
+}
+
+.collection-cont .section-img{
+	width: 100%;
+	padding-left: 0px;
+	margin-bottom: 0px;
+}
+
+.collection-cont .section-img img{
+	width: 100%;
+    height: auto;
+    max-width: 200px;
+    object-fit: contain;
+    border-radius: 0px;
+    border: white;
+    border-style: dashed;
+    transition: transform 0.3s ease-in-out;
+}
+
 
 .section {
 	width: calc(100% / 3); /* Each div takes up one-third of the container */
@@ -242,9 +299,14 @@ body {
 	align-items: center;
 }
 
+.section-header{
+	text-decoration: none;
+}
+
 .footer {
 	position: absolute;
 	right: 0px;
+	display: none;
 	top: 25px;
 	z-index: 500;
 }
