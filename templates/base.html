@@ -13,10 +13,8 @@
 			</div>
 			<div class='nav-element-cont'>
 				{% for key, element in nav_elements.items() %}
-				<div class='nav-element'><a href="{{ url_for('page_content', title=element.title) }}">{{ element.title }}</a><div class='spinning-star'>🞱</div></div>
+				<div class='nav-element'><a href="{{ url_for('page_content', title=element.title.lower()) }}">{{ element.title }}</a><div class='spinning-star'>🞱</div></div>
 				{% endfor %}
-				<div class='nav-element'><a href="/archive/events">events</a><div class='spinning-star'>🞱</div></div>
-				<div class='nav-element'><a href="/archive/opportunities">opportunities</a><div class='spinning-star'>🞱</div></div>
 			</div>
 			
 		</div>

@@ -3,8 +3,8 @@
 /* styles.css */
 body {
     font-family: Arial, sans-serif;
-	background-color: black;
-	color: white;
+	background-color: white;
+	color: black;
 	margin: auto;
 	padding: 0px;
 	font-family: "Space Mono", monospace;
@@ -21,7 +21,7 @@ body {
 .header-title {
 	font-size: 40px;
 	display: flex;
-	background-color: black;
+	background-color: white;
 	width: fit-content;
 	padding: 10px;
 	padding-left: 20px;
@@ -31,7 +31,7 @@ body {
 
 .header-title a {
 	text-decoration: none;
-	color: white;
+	color: black;
 }
 
 .header-summary {
@@ -54,28 +54,28 @@ body {
 .nav-element-cont {
 	display: flex;
 	flex-direction: row;
-	gap: 10px;
+	gap: 20px;
 	text-transform: lowercase;
 	font-size: 25px;
 	width: 100%;
-	background-color: white;
+	background-color: black;
 	padding:20px;
 	align-items: center;
 }
 
 .nav-element-cont a{
 	text-decoration: none;
-	color: black;
+	color: white;
 }
 
 .nav-element {
 	display: flex;
 	flex-direction: row;
-	gap: 10px;
+	gap: 20px;
 }
 
 .line {
-	background-color: white;
+	background-color: black;
 	width: 100%;
 	height: 1px;
 	padding: 0;
@@ -133,9 +133,9 @@ body {
 }
 
 .content-cont .article-cont a {
-	color: black;
+	color: white;
 	text-decoration: none;
-	background-color: white;
+	background-color: black;
 	font-style: oblique;
 	padding-left: 5px;
 	padding-right: 5px;
@@ -155,7 +155,7 @@ body {
 	height: 100%;
 	width: auto;
 	max-width: 900px;
-	border: white;
+	border: black;
     border-style: dashed;
 	transition: transform 0.3s ease-in-out;
 }
@@ -178,7 +178,7 @@ body {
 	height: 100vh;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
+	justify-content: space-around;
 }
 
 .collection-cont {
@@ -196,7 +196,7 @@ body {
 	border: 2px;
 	border-radius: 20px;
 	border-style: solid;
-	border-color: white;
+	border-color: black;
 	padding: 10px;
 }
 
@@ -214,7 +214,7 @@ body {
 
 .content-cont .collection-cont a {
 	text-decoration: underline;
-    color: white;
+    color: black;
 }
 
 .collection-cont .section-img{
@@ -229,7 +229,7 @@ body {
     max-width: 200px;
     object-fit: contain;
     border-radius: 0px;
-    border: white;
+    border: black;
     border-style: dashed;
     transition: transform 0.3s ease-in-out;
 }
@@ -264,7 +264,7 @@ body {
 
 .section-element a {
 	text-decoration: underline;
-	color: white;
+	color: black;
 }
 
 .section-img img{
@@ -272,7 +272,7 @@ body {
 	height: 200px;
 	object-fit: cover;
 	border-radius: 0px;
-    border: white;
+    border: black;
     border-style: dashed;
 	transition: transform 0.3s ease-in-out;
 }
