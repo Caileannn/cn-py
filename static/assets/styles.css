@@ -133,12 +133,9 @@ body {
 }
 
 .content-cont .article-cont a {
-	color: white;
+	color: red;
 	text-decoration: none;
-	background-color: black;
 	font-style: oblique;
-	padding-left: 5px;
-	padding-right: 5px;
 }
 
 .content-cont ul {
@@ -264,7 +261,7 @@ body {
 
 .section-element a {
 	text-decoration: underline;
-	color: black;
+	color: red;
 }
 
 .section-img img{

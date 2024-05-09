@@ -151,6 +151,7 @@ class WikiApp(Flask):
               
         # Find all a tags with href not containing 'index.php'
         links = soup.find_all('a', href=lambda href: href and 'index.php' not in href and not href.startswith('#') and not href.startswith('/File:'))
+       
         # Loop through each link and modify its href attribute
         for link in links:
             # Add _blank to href
@@ -159,6 +160,7 @@ class WikiApp(Flask):
             
         # Find all a tags with href containing 'index.php'
         links = soup.find_all('a', href=lambda href: href and 'index.php' in href)
+        
         # Loop through each link and modify its href attribute
         for link in links:
             # Remove 'index.php' from the href attribute
@@ -166,11 +168,10 @@ class WikiApp(Flask):
            
             
         
-        
-       
+        # print(links)
         # Remove any element with class 'mw-editsection'
         edit_sections = soup.find_all(class_='mw-editsection')
-      
+        print(edit_sections)
         for edit_section in edit_sections:
             edit_section.decompose()
             
