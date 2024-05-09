@@ -171,7 +171,6 @@ class WikiApp(Flask):
         # print(links)
         # Remove any element with class 'mw-editsection'
         edit_sections = soup.find_all(class_='mw-editsection')
-        print(edit_sections)
         for edit_section in edit_sections:
             edit_section.decompose()
             
