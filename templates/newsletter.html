@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Ø | {{ title }}{% endblock %}
+{% block content %}
+<div class='content-cont'>
+	<h1 class='content-header'>{{ title }}</h1>
+    <div class='article-cont'>
+    	{{ content | safe }}
+	</div>
+	<div class='event-cont'>
+		{% for key, value in events.items() %}
+			<hr>
+			<h2 class='event-heading'>Spotlight 🔦</h2>
+			<hr>
+			<div class='list-events'>
+			{% for data in value %}
+			<div class='event'>
+				<h4 class='event-name'><b>{{ data.name }}</b></h4>
+				<p class='event-org'>{{ data.org }}</p>
+				<p class='event-location'><b>Location: </b>{{ data.location }}</p>
+				<p class='event-deadline'><b>Deadline: </b>{{ data.deadline }}</p>
+				<p class='event-text'>{{ data.text }}</p>
+				<a href={{ data.source }} target='_blank'><p class='event-link'><b>Link ↗</b></p></a>
+			</div>
+			{% endfor %}
+			</div>
+		{% endfor %}
+	</div>
+
+	<div class='opp-cont'>
+		{% for key, value in opportunities.items() %}
+			<hr>
+			<h2 class='opp-type-heading'>{{ key }}</h2>
+			<hr>
+			<div class='list-opp'>
+			{% for data in value %}
+			<div class='opp'>
+				<h4 class='opp-name'><b>{{ data.name }}</b></h4>
+				<p class='opp-deadline'><b>Deadline:</b> {{ data.deadline }}</p>
+				<p class='opp-location'><i>{{ data.location }}</i></p>
+				<p class='opp-text'>{{ data.text }}</p>
+				<a href={{ data.source }} target='_blank'><p class='opp-link'><b>Link ↗</b></p></a>
+			</div>
+			{% endfor %}
+			</div>
+		{% endfor %}
+	</div>
+
+	
+</div>
+
+{% endblock %}
