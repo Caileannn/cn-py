@@ -52,7 +52,7 @@ class WikiApp(Flask):
     			'exlimit': '20',
     			'explaintext': 'true',
     			'exintro': 'true'
-    		})
+    		}, proxies={'http':'','https':''})
             
             data = resp.json()
             opp_data = data.get('query', {}).get('pages', {})
@@ -69,7 +69,7 @@ class WikiApp(Flask):
         opp_page_list = {}
         categories = ['Opportunities'] 
         for category in categories:
-            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:'+category+']] [[Opportunities:Deadline::<=' + future_date.strftime("%Y-%m-%d") + ']] [[Opportunities:Deadline::>='+ pub_date.strftime("%Y-%m-%d") + ']] |?Opportunities:Deadline|?Opportunities:Name|?Opportunities:Location|?Opportunities:Organiser/s|?Opportunities:Type|?Opportunities:Source', 'format': 'json', 'formatversion': '2'})
+            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:'+category+']] [[Opportunities:Deadline::<=' + future_date.strftime("%Y-%m-%d") + ']] [[Opportunities:Deadline::>='+ pub_date.strftime("%Y-%m-%d") + ']] |?Opportunities:Deadline|?Opportunities:Name|?Opportunities:Location|?Opportunities:Organiser/s|?Opportunities:Type|?Opportunities:Source', 'format': 'json', 'formatversion': '2'}, proxies={'http':'','https':''})
             data = response.json()
             
             opp_info = {}
@@ -118,7 +118,7 @@ class WikiApp(Flask):
     			'exlimit': '20',
     			'explaintext': 'true',
     			'exintro': 'true'
-    		})
+    		}, proxies={'http':'','https':''})
             
             data = resp.json()
             opp_data = data.get('query', {}).get('pages', {})
@@ -135,7 +135,7 @@ class WikiApp(Flask):
         opp_page_list = {}
         categories = ['Events'] 
         for category in categories:
-            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:'+category+']] [[Event:Date::<=' + future_date.strftime("%Y-%m-%d") + ']] [[Event:Date::>='+ pub_date.strftime("%Y-%m-%d") + ']] |?Event:Date|?Event:Name|?Event:Location|?Event:Organiser/s|?Event:Source', 'format': 'json', 'formatversion': '2'})
+            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:'+category+']] [[Event:Date::<=' + future_date.strftime("%Y-%m-%d") + ']] [[Event:Date::>='+ pub_date.strftime("%Y-%m-%d") + ']] |?Event:Date|?Event:Name|?Event:Location|?Event:Organiser/s|?Event:Source', 'format': 'json', 'formatversion': '2'}, proxies={'http':'','https':''})
             data = response.json()
             
             opp_info = {}
@@ -168,7 +168,7 @@ class WikiApp(Flask):
         homepage_content = ''
         for page in pages:
             # Make a request to MediaWiki API to get content of a specific page
-            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'parse', 'page': page, 'format': 'json'})
+            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'parse', 'page': page, 'format': 'json'}, proxies={'http':'','https':''})
             data = response.json()
             # Extract page title and content
             page_content = data['parse']['text']['*']
@@ -201,7 +201,7 @@ class WikiApp(Flask):
 			'format': 'json',
 			'prop': 'pageimages',
 			'pithumbsize': 700,
-		})
+		}, proxies={'http':'','https':''})
         thumb_data = thumb_resp.json()
         pages_thumb_data = thumb_data.get('query', {}).get('pages', {})
         
@@ -221,7 +221,7 @@ class WikiApp(Flask):
     def fetch_all_pages(self, categories):
         category_page_list = {} 
         for category in categories:
-            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:'+category+']]|?Article:Date|?Article:Draft', 'format': 'json', 'formatversion': '2'})
+            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:'+category+']]|?Article:Date|?Article:Draft', 'format': 'json', 'formatversion': '2'}, proxies={'http':'','https':''})
             data = response.json()
             page_title_timestamps = {}
             for page_title, page_data in data['query']['results'].items():
@@ -250,7 +250,7 @@ class WikiApp(Flask):
     
     def page_content(self, title):
         # Make a request to MediaWiki API to get content of a specific page
-        response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'parse', 'page': title, 'format': 'json'})
+        response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'parse', 'page': title, 'format': 'json'}, proxies={'http':'','https':''})
         data = response.json()
         # Extract page title and content
         page_title = data['parse']['title']
@@ -260,7 +260,7 @@ class WikiApp(Flask):
     
     def fetch_page(self, title):
         # Make a request to MediaWiki API to get content of a specific page
-        response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'parse', 'page': title, 'format': 'json'})
+        response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'parse', 'page': title, 'format': 'json'}, proxies={'http':'','https':''})
         data = response.json()
         # Extract page title and content
         page_title = data['parse']['title']
@@ -275,7 +275,7 @@ class WikiApp(Flask):
             return page_content, page_title
     
     def get_nav_menu(self):
-        response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:MainNavigation]]', 'format': 'json', 'formatversion': '2'})
+        response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:MainNavigation]]', 'format': 'json', 'formatversion': '2'}, proxies={'http':'','https':''})
         data = response.json()
         main_navigation_elements = {}
         for page_title, page_data in data['query']['results'].items():
