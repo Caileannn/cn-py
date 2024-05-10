@@ -168,7 +168,7 @@ class WikiApp(Flask):
         homepage_content = ''
         for page in pages:
             # Make a request to MediaWiki API to get content of a specific page
-            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'parse', 'page': page, 'format': 'json'}, proxies={'http':'','https':''})
+            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'parse', 'page': page, 'format': 'json'}, proxies={'http':'http://wiki.conceptnull.org/','https':'https://wiki.conceptnull.org/'})
             data = response.json()
             # Extract page title and content
             page_content = data['parse']['text']['*']
