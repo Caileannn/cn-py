@@ -472,10 +472,12 @@ hr {
 
 	.event-cont {
 		width: 100%;
+		font-size: 15px;
 	}
 
 	.opp-cont {
 		width: 100%;
+		font-size: 15px;
 	}
 
 	.content-cont img {
@@ -503,6 +505,10 @@ hr {
 		height: 100vh;
     	overflow-y: scroll;
 		overflow-x: hidden;
+	}
+
+	.content-cont h4 {
+		font-size: 17.5px;
 	}
 
 	@media screen and (max-width: 640px){
