@@ -435,13 +435,13 @@ hr {
 
 	.section-cont {
 		flex-direction: column;
-		height: 100%;
+		height: auto;
 	}
 
 	.section {
 		width: 100%;
 		overflow-x: scroll;
-		height: calc(50vh - 50px);
+		/* height: calc(50vh - 50px); */
 	}
 
 	.section-title {
@@ -480,7 +480,7 @@ hr {
 
 	.content-cont img {
 		height: auto;
-		width: 100%;
+		width: 95%;
 	}
 
 	.content-cont h1 {
@@ -493,6 +493,16 @@ hr {
 
 	.article-cont p {
 		font-size: 15px;
+	}
+
+	.main-cont {
+		height: 100vh;
+	}
+
+	.content {
+		height: 100vh;
+    	overflow-y: scroll;
+		overflow-x: hidden;
 	}
 
 	@media screen and (max-width: 640px){
