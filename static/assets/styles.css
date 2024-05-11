@@ -23,7 +23,7 @@ body {
 	display: flex;
 	background-color: white;
 	width: fit-content;
-	padding: 10px;
+	height: 100px;
 	padding-left: 20px;
 	padding-right: 20px;
 	align-items: center;
@@ -46,7 +46,7 @@ body {
 	width: 100%;
 	height: 100px;
 	gap: 0px;
-	margin-bottom: 10px;
+	/* margin-bottom: 10px; */
 	/* position: fixed; */
 	z-index: 100;
 }
@@ -59,7 +59,8 @@ body {
 	font-size: 25px;
 	width: 100%;
 	background-color: black;
-	padding:20px;
+	height: 100px;
+	padding-left: 20px;
 	align-items: center;
 }
 
@@ -91,7 +92,7 @@ body {
 
 .content {
 	width: 100%;
-	position: fixed;
+	/* position: fixed; */
 }
 
 .content-cont {
@@ -99,7 +100,7 @@ body {
 	overflow-x: hidden;
 	height: calc(100vh - 100px);
 	margin-left: 40px;
-	margin-top: 100px;
+	/* margin-top: 100px; */
 	/* margin-top: 100px; */
 	/* margin-bottom: 100px; */
 	/* margin-right: 40px; */
@@ -267,10 +268,13 @@ body {
 
 
 .section-group {
+	
+}
+
+.section-object {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
-	padding-bottom: 200px;
 	align-items: center;
 }
 
@@ -313,7 +317,7 @@ body {
 .section-title {
 	display: flex;
 	margin-bottom: 40px;
-	padding-top: 160px;
+	padding-top: 80px;
 	align-items: center;
 }
 
@@ -382,6 +386,7 @@ hr {
 
 
 
+
 /* Keyframes for the spin animation */
 @keyframes spin {
 	0% { transform: rotate(0deg); } /* Initial rotation */
@@ -405,3 +410,95 @@ hr {
        transform: rotate(0deg) scaleX(100%);
     }
   }
+
+  /* Mobile */
+  @media screen and (max-width: 1024px){
+    .nav-cont {
+		flex-direction: column;
+	}
+
+	.nav-element-cont {
+		overflow-x: scroll;
+		overflow-y: hidden;
+		width: auto;
+        padding-left: 20px;
+	}
+
+	.nav-element-cont::-webkit-scrollbar {
+		display: none;
+		
+	}
+
+	.header-title {
+		width: 100%;
+	}
+
+	.section-cont {
+		flex-direction: column;
+		height: 100%;
+	}
+
+	.section {
+		width: 100%;
+		overflow-x: scroll;
+		height: calc(50vh - 50px);
+	}
+
+	.section-title {
+		padding-top: 40px;
+	}
+
+	.section-group {
+		padding-bottom: 0px;
+		height: 50vh;
+		overflow-x: scroll;
+		display: flex;
+		flex-direction: row;
+		overflow-y: hidden;
+	}
+
+	.section-object {
+		padding-bottom: 0px;
+		min-width: 100vw;
+	}
+
+	.article-cont {
+		width: 100%;
+	}
+
+	.content-cont {
+		padding-right: 40px;
+	}
+
+	.event-cont {
+		width: 100%;
+	}
+
+	.opp-cont {
+		width: 100%;
+	}
+
+	.content-cont img {
+		height: auto;
+		width: 100%;
+	}
+
+	.content-cont h1 {
+		font-size: 40px;
+	}
+
+	.content-cont h2 {
+		font-size: 20px;
+	}
+
+	.article-cont p {
+		font-size: 15px;
+	}
+
+	@media screen and (max-width: 640px){
+		.content-cont {
+			padding-right: 10px;
+			margin-left: 20px;
+		}
+	}
+}

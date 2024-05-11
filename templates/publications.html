@@ -6,9 +6,11 @@
 		<a class='section-header' href='/archive/newsletters'><div class='section-title'><div style="display: inline-flex; text-align: center; justify-content: center; align-items: center; line-height: 100%; padding: 2.2px; font-size: 25px; font-style: normal; object-fit: contain; font-family: monospace;  color: black; width: 100%;">NEWSLETTERS<br><!--<img src="https://i-love-everything.com/buttons/img/34.gif" style="max-height: 32px;">--></div></div></a>
 		<div class='section-group'>
 			{% for key, values in newsletters.items() %}
-				<div class='section-element'><a href="/newsletter{{ url_for('page_content', title=values.title) }}">↘ {{ values.title }}</a></div>
-				<div class='section-date'>{{ values.date }}</div>
-				<div class='section-img'><a href="/newsletter{{ url_for('page_content', title=values.title) }}"><img src="{{ values.source}}"></a></div>
+				<div class='section-object'>
+					<div class='section-element'><a href="/newsletter{{ url_for('page_content', title=values.title) }}">↘ {{ values.title }}</a></div>
+					<div class='section-date'>{{ values.date }}</div>
+					<div class='section-img'><a href="/newsletter{{ url_for('page_content', title=values.title) }}"><img src="{{ values.source}}"></a></div>
+				</div>
 			{% endfor %}
 			</div>
 	</div>
@@ -16,9 +18,11 @@
 		<a class='section-header' href='/archive/projects'><div class='section-title'><div style="display: inline-flex; text-align: center; justify-content: center; align-items: center; line-height: 100%; padding: 3.3px; font-size: 25px; font-style: normal; object-fit: contain; font-family: monospace; color: black; border: 0px solid black; width: 100%;">PROJECTS<!--<img src="https://i-love-everything.com/buttons/img/26.gif" style="max-height: 32px;">--></div></div></a>
 		<div class='section-group'>
 			{% for key, values in projects.items() %}
+			<div class='section-object'>
 				<div class='section-element'><a href="{{ url_for('page_content', title=values.title) }}">↘ {{ values.title }}</a></div>
 				<div class='section-date'>{{ values.date }}</div>
 				<div class='section-img'><a href="{{ url_for('page_content', title=values.title) }}"><img src="{{ values.source }}"></a></div>
+			</div>
 			{% endfor %}
 			</div>
 	</div>
