@@ -54,13 +54,16 @@ class WikiApp(Flask):
     			'exintro': 'true'
     		})
             
+            
             data = resp.json()
+            
             opp_data = data.get('query', {}).get('pages', {})
             
             for residency_entry in all_opportunities.values():
                 for open_call_entry in opp_data.values():
-                    if residency_entry[0]['pagetitle'] == open_call_entry['title']:
-                        residency_entry[0]['text'] = open_call_entry['extract']
+                        for opp in residency_entry:
+                            if opp['pagetitle'] == open_call_entry['title']:
+                                opp['text'] = open_call_entry['extract']
                         
             sorted_data = {key: sorted(value, key=lambda x: x['deadline'], reverse=True) for key, value in all_opportunities.items()}        
             return sorted_data
@@ -121,12 +124,14 @@ class WikiApp(Flask):
     		})
             
             data = resp.json()
+			
             opp_data = data.get('query', {}).get('pages', {})
             
             for residency_entry in all_events.values():
                 for open_call_entry in opp_data.values():
-                    if residency_entry[0]['pagetitle'] == open_call_entry['title']:
-                        residency_entry[0]['text'] = open_call_entry['extract']
+                        for opp in residency_entry:
+                            if opp['pagetitle'] == open_call_entry['title']:
+                                opp['text'] = open_call_entry['extract']
                         
             sorted_data = {key: sorted(value, key=lambda x: x['deadline'], reverse=False) for key, value in all_events.items()}
             return sorted_data
@@ -182,9 +187,9 @@ class WikiApp(Flask):
         publication_page_list = self.fetch_all_pages(concepts)
         updated_cat_list = self.fetch_pages_cat(publication_page_list)
         projects = updated_cat_list.get('Projects', [])
-        sorted_prj = dict(sorted(projects.items(), key=lambda x: x[1]['date']))
+        sorted_prj = dict(sorted(projects.items(), key=lambda x: x[1]['date'], reverse=True))
         newsletters = updated_cat_list.get('Newsletters', [])
-        sorted_nl = dict(sorted(newsletters.items(), key=lambda x: x[1]['date']))
+        sorted_nl = dict(sorted(newsletters.items(), key=lambda x: x[1]['date'], reverse=True))
         nav_elements = self.get_nav_menu()
         
         return render_template('publications.html', projects=sorted_prj, newsletters=sorted_nl, nav_elements=nav_elements)
@@ -346,4 +351,4 @@ class WikiApp(Flask):
 
 if __name__ == '__main__':
     app = WikiApp(__name__)
-    app.run()
+    app.run(debug=True)
