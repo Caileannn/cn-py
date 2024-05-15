@@ -5,6 +5,7 @@ Website for Concept Null (2024)
 The wiki and the backend run on MediaWiki/Semantic Wiki. This is inspired by the implementation created by Hackers & Designers.
 
 [Wiki ↗](https://wiki.conceptnull.org/index.php/Main_Page)
+
 [Website ↗](https://new.conceptnull.org/)
 
 ## Requirements
