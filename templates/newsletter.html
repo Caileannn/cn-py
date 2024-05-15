@@ -6,6 +6,7 @@
     <div class='article-cont'>
     	{{ content | safe }}
 	</div>
+	<p>&#8203;</p>
 	<div class='event-cont'>
 		{% for key, value in events.items() %}
 			<hr>
@@ -15,12 +16,13 @@
 			{% for data in value %}
 			<div class='event'>
 				<h4 class='event-name'><b>{{ data.name }}</b></h4>
-				<p class='event-org'>{{ data.org }}</p>
+				<p class='event-org'><b>Organiser/s: </b>{{ data.org }}</p>
 				<p class='event-location'><b>Location: </b>{{ data.location }}</p>
-				<p class='event-deadline'><b>Deadline: </b>{{ data.deadline }}</p>
+				<p class='event-deadline'><b>Date: </b>{{ data.deadline }}</p>
 				<p class='event-text'>{{ data.text }}</p>
 				<a href={{ data.source }} target='_blank'><p class='event-link'><b>Link ↗</b></p></a>
 			</div>
+			<p>&#8203;</p>
 			{% endfor %}
 			</div>
 		{% endfor %}
@@ -39,7 +41,9 @@
 				<p class='opp-location'><i>{{ data.location }}</i></p>
 				<p class='opp-text'>{{ data.text }}</p>
 				<a href={{ data.source }} target='_blank'><p class='opp-link'><b>Link ↗</b></p></a>
+				<p>&#8203;</p>
 			</div>
+			
 			{% endfor %}
 			</div>
 		{% endfor %}
