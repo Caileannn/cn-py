@@ -187,10 +187,13 @@ class WikiApp(Flask):
         publication_page_list = self.fetch_all_pages(concepts)
         updated_cat_list = self.fetch_pages_cat(publication_page_list)
         projects = updated_cat_list.get('Projects', [])
-        sorted_prj = dict(sorted(projects.items(), key=lambda x: x[1]['date'], reverse=True))
+        sorted_prj = dict(sorted(projects.items(), key=lambda item: datetime.strptime(item[1]['date'], "%d.%m.%Y" ), reverse=True) )
         newsletters = updated_cat_list.get('Newsletters', [])
-        sorted_nl = dict(sorted(newsletters.items(), key=lambda x: x[1]['date'], reverse=True))
+        sorted_nl = dict(sorted(newsletters.items(), key=lambda item: datetime.strptime(item[1]['date'], "%d.%m.%Y" ), reverse=True) )
+        
         nav_elements = self.get_nav_menu()
+        
+        
         
         return render_template('publications.html', projects=sorted_prj, newsletters=sorted_nl, nav_elements=nav_elements)
     
