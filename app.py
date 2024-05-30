@@ -102,6 +102,7 @@ class WikiApp(Flask):
     
     def fetch_events(self, pub_date, future_date):
         all_events = self.fetch_all_events(pub_date, future_date)
+        print(all_events)
         if not all_events:
             return {}
         else:
@@ -140,9 +141,8 @@ class WikiApp(Flask):
         opp_page_list = {}
         categories = ['Events'] 
         for category in categories:
-            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:'+category+']] [[Event:Date::<=' + future_date.strftime("%Y-%m-%d") + ']] [[Event:Date::>='+ pub_date.strftime("%Y-%m-%d") + ']] |?Event:Date|?Event:Name|?Event:Location|?Event:Organiser/s|?Event:Source', 'format': 'json', 'formatversion': '2'})
+            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:'+category+']] [[Event:Date::<=' + future_date.strftime("%Y-%m-%d") + ']] [[Event:Date::>='+ pub_date.strftime("%Y-%m-%d") + ']] |?Event:Date|?Event:EndDate|?Event:Name|?Event:Location|?Event:Organiser/s|?Event:Source', 'format': 'json', 'formatversion': '2'})
             data = response.json()
-            
             opp_info = {}
             if not data['query']['results']:
                 return {}
@@ -155,11 +155,20 @@ class WikiApp(Flask):
                         deadline = deadline[2:]
                         lol = datetime.strptime(deadline, "%Y/%m/%d")
                         formatted_deadline = lol.strftime("%d-%m-%Y")
+                        try:
+                            endDate = page_data['printouts']['Event:EndDate'][0]['raw']
+                            endDate = endDate[2:]
+                            lol_2 = datetime.strptime(endDate, "%Y/%m/%d")
+                            formatted_EndDate = lol_2.strftime("%d-%m-%Y")
+                        except:
+                            formatted_EndDate = "(っ °Д °;)っ"
+						
+                        
                         location = page_data['printouts']['Event:Location'][0]
                         source = page_data['printouts']['Event:Source'][0]
                         org = page_data['printouts']['Event:Organiser/s'][0]['fulltext']
                         
-                        opp_info = {'pagetitle': page_title, 'name': name, 'deadline': formatted_deadline, 'location': location, 'source' : source, 'org': org, 'text': ''}
+                        opp_info = {'pagetitle': page_title, 'name': name, 'deadline': formatted_deadline, 'endDate': formatted_EndDate,'location': location, 'source' : source, 'org': org, 'text': ''}
                         
                         if type not in opp_page_list:
                             opp_page_list[type] = []
