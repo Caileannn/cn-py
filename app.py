@@ -102,7 +102,6 @@ class WikiApp(Flask):
     
     def fetch_events(self, pub_date, future_date):
         all_events = self.fetch_all_events(pub_date, future_date)
-        print(all_events)
         if not all_events:
             return {}
         else:
