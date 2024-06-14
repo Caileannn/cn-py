@@ -74,29 +74,32 @@ class WikiApp(Flask):
         for category in categories:
             response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:'+category+']] [[Opportunities:Deadline::<=' + future_date.strftime("%Y-%m-%d") + ']] [[Opportunities:Deadline::>='+ pub_date.strftime("%Y-%m-%d") + ']] |?Opportunities:Deadline|?Opportunities:Name|?Opportunities:Location|?Opportunities:Organiser/s|?Opportunities:Type|?Opportunities:Source', 'format': 'json', 'formatversion': '2'})
             data = response.json()
-            
             opp_info = {}
             if not data['query']['results']:
                 return {}
             else:
                 for page_title, page_data in data['query']['results'].items():
                     if 'printouts' in page_data and 'Opportunities:Deadline' in page_data['printouts']:
-                        type = page_data['printouts']['Opportunities:Type'][0]
-                        name = page_data['printouts']['Opportunities:Name'][0]
-                        deadline = page_data['printouts']['Opportunities:Deadline'][0]['raw']
-                        deadline = deadline[2:]
-                        lol = datetime.strptime(deadline, "%Y/%m/%d")
-                        formatted_deadline = lol.strftime("%d-%m-%Y")
-                        location = page_data['printouts']['Opportunities:Location'][0]
-                        source = page_data['printouts']['Opportunities:Source'][0]
-                        org = page_data['printouts']['Opportunities:Organiser/s'][0]['fulltext']
-                        
-                        opp_info = {'pagetitle': page_title, 'name': name, 'deadline': formatted_deadline, 'location': location, 'source' : source, 'org': org, 'text': ''}
-                        
-                        if type not in opp_page_list:
-                            opp_page_list[type] = []
-                        
-                        opp_page_list[type].append(opp_info)
+                        try:
+                            print(page_title)
+                            type = page_data['printouts']['Opportunities:Type'][0]
+                            name = page_data['printouts']['Opportunities:Name'][0]
+                            deadline = page_data['printouts']['Opportunities:Deadline'][0]['raw']
+                            deadline = deadline[2:]
+                            lol = datetime.strptime(deadline, "%Y/%m/%d")
+                            formatted_deadline = lol.strftime("%d-%m-%Y")
+                            location = page_data['printouts']['Opportunities:Location'][0]
+                            source = page_data['printouts']['Opportunities:Source'][0]
+                            org = page_data['printouts']['Opportunities:Organiser/s'][0]['fulltext']
+                            
+                            opp_info = {'pagetitle': page_title, 'name': name, 'deadline': formatted_deadline, 'location': location, 'source' : source, 'org': org, 'text': ''}
+                            
+                            if type not in opp_page_list:
+                                opp_page_list[type] = []
+                            
+                            opp_page_list[type].append(opp_info)
+                        except:
+                            print(f"issue with parsing, {page_title}")
         
         return opp_page_list
     
