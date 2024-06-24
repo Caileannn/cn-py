@@ -58,12 +58,14 @@ class WikiApp(Flask):
             data = resp.json()
             
             opp_data = data.get('query', {}).get('pages', {})
-            
             for residency_entry in all_opportunities.values():
                 for open_call_entry in opp_data.values():
                         for opp in residency_entry:
                             if opp['pagetitle'] == open_call_entry['title']:
-                                opp['text'] = open_call_entry['extract']
+                                try:
+                                    opp['text'] = open_call_entry['extract']
+                                except:
+                                    opp['text'] = "No text information found."
                         
             sorted_data = {key: sorted(value, key=lambda x: x['deadline'], reverse=True) for key, value in all_opportunities.items()}        
             new_order = ['Open Call', 'Residency', 'Funding', 'Job Opportunity', 'Workshop', 'Studio Vacancy']
@@ -91,7 +93,6 @@ class WikiApp(Flask):
                 for page_title, page_data in data['query']['results'].items():
                     if 'printouts' in page_data and 'Opportunities:Deadline' in page_data['printouts']:
                         try:
-                            print(page_title)
                             type = page_data['printouts']['Opportunities:Type'][0]
                             name = page_data['printouts']['Opportunities:Name'][0]
                             deadline = page_data['printouts']['Opportunities:Deadline'][0]['raw']
@@ -208,13 +209,12 @@ class WikiApp(Flask):
         publication_page_list = self.fetch_all_pages(concepts)
         updated_cat_list = self.fetch_pages_cat(publication_page_list)
         projects = updated_cat_list.get('Projects', [])
+        print(projects)
         sorted_prj = dict(sorted(projects.items(), key=lambda item: datetime.strptime(item[1]['date'], "%d.%m.%Y" ), reverse=True) )
         newsletters = updated_cat_list.get('Newsletters', [])
         sorted_nl = dict(sorted(newsletters.items(), key=lambda item: datetime.strptime(item[1]['date'], "%d.%m.%Y" ), reverse=True) )
         
         nav_elements = self.get_nav_menu()
-        
-        
         
         return render_template('publications.html', projects=sorted_prj, newsletters=sorted_nl, nav_elements=nav_elements)
     
@@ -239,7 +239,7 @@ class WikiApp(Flask):
             pageid = value.get('pageid')
             source = value.get('thumbnail', {}).get('source')
             for category, pages in category_page_list.items():
-                #	print(category, pages)
+                
                 if title in pages:
                     for index, page_title in enumerate(category_page_list[category]):
                         if title == page_title:
@@ -281,6 +281,7 @@ class WikiApp(Flask):
         # Make a request to MediaWiki API to get content of a specific page
         response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'parse', 'page': title, 'format': 'json'})
         data = response.json()
+        
         # Extract page title and content
         page_title = data['parse']['title']
         page_content = data['parse']['text']['*']
