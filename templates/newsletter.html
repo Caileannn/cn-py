@@ -15,7 +15,7 @@
 			<div class='list-events'>
 			{% for data in value %}
 			<div class='event'>
-				<h4 class='event-name'><b>{{ data.name }}</b></h4>
+				<a class='link' href='/{{ data.pagetitle }}' target="_blank"><h4 class='event-name'><b>{{ data.name }}</b></h4></a>
 				<p class='event-org'><b>Organiser/s: </b>{{ data.org }}</p>
 				<p class='event-location'><b>Location: </b>{{ data.location }}</p>
 				<p class='event-deadline'><b>Date: </b>{{ data.deadline }} &#8594; {{ data.endDate}}</p>
@@ -34,7 +34,7 @@
 			<div class='list-events'>
 			{% for data in value %}
 			<div class='event'>
-				<h4 class='event-name'><b>{{ data.name }}</b></h4>
+				<a class='link' href='/{{ data.pagetitle }}' target="_blank"><h4 class='event-name'><b>{{ data.name }}</b></h4></a>
 				<p class='event-org'><b>Organiser/s: </b>{{ data.org }}</p>
 				<p class='event-location'><b>Location: </b>{{ data.location }}</p>
 				<p class='event-deadline'><b>Date: </b>{{ data.deadline }} &#8594; {{ data.endDate}}</p>
@@ -55,7 +55,7 @@
 			<div class='list-opp'>
 			{% for data in value %}
 			<div class='opp'>
-				<h4 class='opp-name'><b>{{ data.name }}</b></h4>
+				<a class='link' href='/{{ data.pagetitle }}' target="_blank"><h4 class='opp-name'><b>{{ data.name }}</b></h4></a>
 				<p class='opp-deadline'><b>Deadline:</b> {{ data.deadline }}</p>
 				<p class='opp-location'><i>{{ data.location }}</i></p>
 				<p class='opp-text'>{{ data.text }}</p>
