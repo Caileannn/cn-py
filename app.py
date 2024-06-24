@@ -66,7 +66,17 @@ class WikiApp(Flask):
                                 opp['text'] = open_call_entry['extract']
                         
             sorted_data = {key: sorted(value, key=lambda x: x['deadline'], reverse=True) for key, value in all_opportunities.items()}        
-            return sorted_data
+            new_order = ['Open Call', 'Residency', 'Funding', 'Job Opportunity', 'Workshop', 'Studio Vacancy']
+            category_mapping = {
+				'Open Call': '📯 Open Calls',
+				'Residency': '🏠 Residencies',
+				'Funding': '💰 Funding',
+				'Job Opportunity': '🦺 Job Opportunities',
+				'Workshop': '🛠️ Workshops',
+				'Studio Vacancy': '🔓 Studio Vacancies'
+			}
+            reordered_dict = {category_mapping[category]: sorted_data[category] for category in new_order if category in sorted_data}
+            return reordered_dict
              
     def fetch_all_opportunities(self, pub_date, future_date):
         opp_page_list = {}
