@@ -372,7 +372,7 @@ class WikiApp(Flask):
     # Route for favicon.ico to prevent Flask from raising an error
     def favicon(self):
         return Response('', status=200)
- 
+
 app = WikiApp(__name__)
 
 if __name__ == '__main__':
