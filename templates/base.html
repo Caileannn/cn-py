@@ -14,7 +14,13 @@
 			</div>
 			<div class='nav-element-cont'>
 				{% for key, element in nav_elements.items() %}
-				<div class='nav-element'><a href="{{ url_for('page_content', title=element.title.lower()) }}">{{ element.title }}</a><div class='spinning-star'>🞱</div></div>
+				<div class='nav-element'><a href="{{ url_for('page_content', title=element.title) }}">
+					{% if element.title == 'Concept Null' %}
+						About
+					{% else %}
+						{{ element.title }}
+					{% endif %}
+				</a><div class='spinning-star'>🞱</div></div>
 				{% endfor %}
 			</div>
 			

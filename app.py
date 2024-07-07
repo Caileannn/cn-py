@@ -309,7 +309,8 @@ class WikiApp(Flask):
         data = response.json()
         main_navigation_elements = {}
         for page_title, page_data in data['query']['results'].items():
-            main_navigation_elements[page_title] = {'title':page_data.get('fulltext', '')}
+            title = page_data.get('fulltext', '')
+            main_navigation_elements[page_title] = {'title':title}
         reversed_main_navigation = list(main_navigation_elements.items())[::-1]
         reversed_main_navigation = dict(reversed_main_navigation)
         return reversed_main_navigation
@@ -376,4 +377,4 @@ class WikiApp(Flask):
 app = WikiApp(__name__)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
