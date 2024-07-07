@@ -373,7 +373,7 @@ class WikiApp(Flask):
     def favicon(self):
         return Response('', status=200)
  
+app = WikiApp(__name__)
 
 if __name__ == '__main__':
-    app = WikiApp(__name__)
-    app.run(debug=True)
+    app.run(debug=False)
