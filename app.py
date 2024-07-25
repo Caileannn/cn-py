@@ -360,6 +360,10 @@ class WikiApp(Flask):
             
         soup = self.remove_thumbnail_img(soup)
         
+        print(soup)
+
+            
+        
         return soup.prettify()
     
     def remove_thumbnail_img(self, soup):

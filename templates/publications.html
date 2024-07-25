@@ -1,21 +1,19 @@
 {% extends "base.html" %}
 {% block title %} Ø | Publications{% endblock %}
 {% block content %}
-<div class='section-cont'>
-	<div class='section'>
-		<a class='section-header' href='/archive/newsletters'><div class='section-title'><div style="display: inline-flex; text-align: center; justify-content: center; align-items: center; line-height: 100%; padding: 2.2px; font-size: 25px; font-style: normal; object-fit: contain; font-family: monospace;  color: black; width: 100%;">NEWSLETTERS<br><!--<img src="https://i-love-everything.com/buttons/img/34.gif" style="max-height: 32px;">--></div></div></a>
-		<div class='section-group'>
-			{% for key, values in newsletters.items() %}
-				<div class='section-object'>
-					<div class='section-element'><a href="/newsletter{{ url_for('page_content', title=values.title) }}">↘ {{ values.title }}</a></div>
-					<div class='section-date'>{{ values.date }}</div>
-					<div class='section-img'><a href="/newsletter{{ url_for('page_content', title=values.title) }}"><img src="{{ values.source}}"></a></div>
-				</div>
-			{% endfor %}
-			</div>
+<div class='pub-section-cont'>
+	<div class='pub-section'>
+		<h1>Newsletter</h1>
+		<p>Currently, we run a bi-weekly newsletter that aims to highlight different types of events and opportunities centered around new media and digital culture in Ireland.</p>
+		<p>The newsletter is released on the <b>1st</b> and <b>15th</b> of every month through Substack - You can subcribe through Substack by following this link <a href="https://substack.com/redirect/6abd2991-f337-42ac-8f41-12e6223a6a7f?j=eyJ1IjoiMXJxOGc0In0.dM5dzYwXHG4nrZaQTiBPTHLz4xPM2kz2cwpsDugPHVw" target="_blank">(subscribe)</a>, and receive it directly into your inbox~</p>
+		<p>If you wish to sumbit any opportunities, events, residences (...) that would be a good fit for the newsletter -- please feel free to reach out to us by emailing us at <i>conceptnullofficial@gmail.com</i></p>
+		<p>***</p>
+		<p><i>The future plan we have for the platform is that users will have the ability to add their own entries into the upcoming newsletter through the Concept NULL wiki - acting as more of a decentralised noticeboard than just a newsletter. As for now, you can view our work-in-progress newsletter here, as we compile it for our Substack.</i></p>
+		<p>***</p>
 	</div>
-	<div class='section'>
-		<a class='section-header' href='/archive/projects'><div class='section-title'><div style="display: inline-flex; text-align: center; justify-content: center; align-items: center; line-height: 100%; padding: 3.3px; font-size: 25px; font-style: normal; object-fit: contain; font-family: monospace; color: black; border: 0px solid black; width: 100%;">PROJECTS<!--<img src="https://i-love-everything.com/buttons/img/26.gif" style="max-height: 32px;">--></div></div></a>
+
+	<div class='pub-section'>
+		<h1>Projects</h1>
 		<div class='section-group'>
 			{% for key, values in projects.items() %}
 			<div class='section-object'>
@@ -24,7 +22,7 @@
 				<div class='section-img'><a href="{{ url_for('page_content', title=values.title) }}"><img src="{{ values.source }}"></a></div>
 			</div>
 			{% endfor %}
-			</div>
+		</div>
 	</div>
 </div>
 

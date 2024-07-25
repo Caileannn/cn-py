@@ -10,6 +10,7 @@ body {
 	padding: 0px;
 	font-family: "Space Mono", monospace;
 	overflow: hidden;
+	height: 100vh;
 }
 
 .main-cont {
@@ -25,8 +26,8 @@ body {
 	background-color: white;
 	width: fit-content;
 	height: 100px;
-	padding-left: 20px;
-	padding-right: 20px;
+	padding-left: 40px;
+	padding-right: 40px;
 	align-items: center;
 }
 
@@ -93,6 +94,8 @@ body {
 
 .content {
 	width: 100%;
+	display: flex;
+	height: calc(100% - 100px);
 	/* position: fixed; */
 }
 
@@ -123,11 +126,13 @@ body {
 	font-family: "Source Sans 3", sans-serif;
 	font-size: 20px;
 	line-height: 30px;
+	margin-top: 0;
 }
 
 .content-cont h1{
 	font-size: 60px;
 	text-decoration: underline;
+	margin-bottom: 5px;
 }
 
 .content-cont h2{
@@ -282,7 +287,6 @@ body {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
-	align-items: center;
 }
 
 .section-element {
@@ -298,7 +302,7 @@ body {
 
 .section-img img{
 	width: 100%;
-	height: 200px;
+	height: 400px;
 	object-fit: cover;
 	border-radius: 0px;
     border: black;
@@ -313,7 +317,6 @@ body {
 .section-img {
 	width: 75%;
 	padding-left: 0px;
-	margin-bottom: 80px;
 	padding-top: 10px;
 }
 
@@ -409,6 +412,36 @@ body {
 	font-family: "Source Sans 3", sans-serif;
 	font-size: 20px;
 	line-height: 30px;
+}
+
+.pub-section {
+	display: flex;
+	gap: 20px;
+	flex-direction: column;
+	width: 60%;
+}
+
+.pub-section-cont {
+	display: flex;
+	flex-direction: column;
+	padding: 40px;
+	padding-top: 0px;
+	gap: 20px;
+	overflow-y: scroll;
+	width: 100%;
+}
+
+.pub-section-cont p{
+	font-family: "Source Sans 3", sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+    margin-top: 0;
+}
+
+.pub-section-cont h1 {
+	font-size: 60px;
+    text-decoration: underline;
+    margin-bottom: 5px;
 }
 
 /* hr {
