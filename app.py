@@ -209,14 +209,13 @@ class WikiApp(Flask):
         publication_page_list = self.fetch_all_pages(concepts)
         updated_cat_list = self.fetch_pages_cat(publication_page_list)
         projects = updated_cat_list.get('Projects', [])
-        print(projects)
         sorted_prj = dict(sorted(projects.items(), key=lambda item: datetime.strptime(item[1]['date'], "%d.%m.%Y" ), reverse=True) )
         newsletters = updated_cat_list.get('Newsletters', [])
         sorted_nl = dict(sorted(newsletters.items(), key=lambda item: datetime.strptime(item[1]['date'], "%d.%m.%Y" ), reverse=True) )
-        
+        most_recent_newsletter = next(iter(sorted_nl.items()))
         nav_elements = self.get_nav_menu()
         
-        return render_template('publications.html', projects=sorted_prj, newsletters=sorted_nl, nav_elements=nav_elements)
+        return render_template('publications.html', latest_title=most_recent_newsletter[0], projects=sorted_prj, newsletters=sorted_nl, nav_elements=nav_elements)
     
     def fetch_meetups(self):
         meetup_content, page_title = self.fetch_page('Meetups')
@@ -359,11 +358,7 @@ class WikiApp(Flask):
             file_link.unwrap()
             
         soup = self.remove_thumbnail_img(soup)
-        
-        print(soup)
-
-            
-        
+    
         return soup.prettify()
     
     def remove_thumbnail_img(self, soup):
