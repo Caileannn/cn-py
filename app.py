@@ -1,7 +1,7 @@
 from flask import Flask, render_template, Response
 import requests
 import re
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Comment
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -358,6 +358,21 @@ class WikiApp(Flask):
             file_link.unwrap()
             
         soup = self.remove_thumbnail_img(soup)
+        # Locate the table and the comment
+        table = soup.find('table')
+        # Remove inline styles by deleting the 'style' attribute
+        if table and 'style' in table.attrs:
+            del table['style']
+        
+        # Add the class 'table-cont' to the table
+        if table:
+            table['class'] = table.get('class', []) + ['table-cont']
+        comments = soup.find_all(string=lambda text: isinstance(text, Comment))
+        comment = comments[-1] if comments else None
+        
+        # Insert the table before the comment
+        if comment:
+            comment.insert_before(table.extract())
     
         return soup.prettify()
     
