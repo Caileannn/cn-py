@@ -104,6 +104,7 @@ body {
 	overflow-x: hidden;
 	height: calc(100vh - 100px);
 	margin-left: 40px;
+	width: 100%;
 	/* margin-top: 100px; */
 	/* margin-top: 100px; */
 	/* margin-bottom: 100px; */
@@ -454,6 +455,8 @@ body {
 	padding: 20px;
 	border-radius: 30px;
 	cursor: pointer;
+	background-color: black;
+	color: white;
 }
 
 .link-blank {
@@ -632,6 +635,10 @@ body {
 
 	.content-cont h4 {
 		font-size: 17.5px;
+	}
+
+	.opp-text {
+		font-size: 15px;
 	}
 
 	@media screen and (max-width: 640px){
