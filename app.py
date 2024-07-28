@@ -371,7 +371,7 @@ class WikiApp(Flask):
         comment = comments[-1] if comments else None
         
         # Insert the table before the comment
-        if comment:
+        if comment and table is not None:
             comment.insert_before(table.extract())
     
         return soup.prettify()
