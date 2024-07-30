@@ -35,6 +35,20 @@ body {
 	align-items: center;
 }
 
+.header-logo {
+	height: 100px;
+	max-width: 500px;
+	padding-left: 40px;
+	padding-right: 40px;
+	display: flex;
+	align-self: center;
+}
+
+.header-logo img{
+	height: 100%;
+	width: 100%;
+}
+
 .header-title a {
 	text-decoration: none;
 	color: black;
