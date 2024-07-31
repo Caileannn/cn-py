@@ -658,6 +658,10 @@ body {
 		font-size: 15px;
 	}
 
+	.header-logo {
+		display: flex;
+	}
+
 	@media screen and (max-width: 640px){
 		.content-cont {
 			padding-right: 10px;
