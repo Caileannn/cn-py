@@ -16,13 +16,17 @@ class WikiApp(Flask):
         # Define routes
         # self.route('/', methods=['GET'])(self.homepage)
         self.route('/', methods=['GET'])(self.homepage_new)
+        self.route('/data', methods=['GET'])(self.data_int)
         self.route('/newsletter/<string:title>', methods=['GET'])(self.generate_newsletter)
         self.route('/publications', methods=['GET'])(self.fetch_publications)
         self.route('/meetups', methods=['GET'])(self.fetch_meetups)
         self.route('/<string:title>', methods=['GET'])(self.page_content)
         self.route('/favicon.ico')(self.favicon)
         self.route('/archive/<string:collection>', methods=['GET'])(self.get_collection)
-        
+       
+    def data_int(self):
+        return render_template('data.html')
+         
     def generate_newsletter(self, title):
         content, title, date = self.fetch_page(title)
         given_date = datetime.strptime(date, "%Y-%m-%d")
