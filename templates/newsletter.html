@@ -14,15 +14,17 @@
 			<hr>
 			<div class='list-events'>
 			{% for data in value %}
-			<div class='event'>
-				<a class='link' href='/{{ data.pagetitle }}' target="_blank"><h4 class='event-name'><b>{{ data.name }}</b></h4></a>
-				<p class='event-org'><b>Organiser/s: </b>{{ data.org }}</p>
-				<p class='event-location'><b>Location: </b>{{ data.location }}</p>
-				<p class='event-deadline'><b>Date: </b>{{ data.deadline }} &#8594; {{ data.endDate}}</p>
-				<p class='event-text'>{{ data.text }}</p>
-				<a href={{ data.source }} target='_blank'><p class='event-link'><b>Link ↗</b></p></a>
-			</div>
-			<p>&#8203;</p>
+				{% if data.spotlight %}
+				<div class='event'>
+					<a class='link' href='/{{ data.pagetitle }}' target="_blank"><h4 class='event-name'><b>{{ data.name }}</b></h4></a>
+					<p class='event-org'><b>Organiser/s: </b>{{ data.org }}</p>
+					<p class='event-location'><b>Location: </b>{{ data.location }}</p>
+					<p class='event-deadline'><b>Date: </b>{{ data.deadline }} &#8594; {{ data.endDate}}</p>
+					<p class='event-text'>{{ data.text }}</p>
+					<a href={{ data.source }} target='_blank'><p class='event-link'><b>Link ↗</b></p></a>
+				</div>
+				<p>&#8203;</p>
+				{% endif %}
 			{% endfor %}
 			</div>
 		{% endfor %}
@@ -33,15 +35,17 @@
 			<hr>
 			<div class='list-events'>
 			{% for data in value %}
-			<div class='event'>
-				<a class='link' href='/{{ data.pagetitle }}' target="_blank"><h4 class='event-name'><b>{{ data.name }}</b></h4></a>
-				<p class='event-org'><b>Organiser/s: </b>{{ data.org }}</p>
-				<p class='event-location'><b>Location: </b>{{ data.location }}</p>
-				<p class='event-deadline'><b>Date: </b>{{ data.deadline }} &#8594; {{ data.endDate}}</p>
-				<p class='event-text'>{{ data.text }}</p>
-				<a href={{ data.source }} target='_blank'><p class='event-link'><b>Link ↗</b></p></a>
-			</div>
-			<p>&#8203;</p>
+				{% if not data.spotlight %}
+					<div class='event'>
+						<a class='link' href='/{{ data.pagetitle }}' target="_blank"><h4 class='event-name'><b>{{ data.name }}</b></h4></a>
+						<p class='event-org'><b>Organiser/s: </b>{{ data.org }}</p>
+						<p class='event-location'><b>Location: </b>{{ data.location }}</p>
+						<p class='event-deadline'><b>Date: </b>{{ data.deadline }} &#8594; {{ data.endDate}}</p>
+						<p class='event-text'>{{ data.text }}</p>
+						<a href={{ data.source }} target='_blank'><p class='event-link'><b>Link ↗</b></p></a>
+					</div>
+					<p>&#8203;</p>
+				{%endif%}
 			{% endfor %}
 			</div>
 		{% endfor %}

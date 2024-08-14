@@ -31,9 +31,10 @@ class WikiApp(Flask):
         content, title, date = self.fetch_page(title)
         given_date = datetime.strptime(date, "%Y-%m-%d")
         new_date_opp = given_date + relativedelta(months=2)
-        new_date_events = given_date + relativedelta(weeks=2)
+        new_date_events = given_date + relativedelta(weeks=4)
         opportunites_dict = self.fetch_opportunities(given_date.date(), new_date_opp.date())
         events_dict = self.fetch_events(given_date.date(), new_date_events.date())
+        print(events_dict)
         return render_template('newsletter.html', nav_elements=self.get_nav_menu(), content=content, title=title, events=events_dict, opportunities=opportunites_dict)
 
     def fetch_opportunities(self, pub_date, future_date):
@@ -158,7 +159,7 @@ class WikiApp(Flask):
         opp_page_list = {}
         categories = ['Events'] 
         for category in categories:
-            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:'+category+']] [[Event:Date::<=' + future_date.strftime("%Y-%m-%d") + ']] [[Event:Date::>='+ pub_date.strftime("%Y-%m-%d") + ']] |?Event:Date|?Event:EndDate|?Event:Name|?Event:Location|?Event:Organiser/s|?Event:Source', 'format': 'json', 'formatversion': '2'})
+            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:'+category+']] [[Event:Date::<=' + future_date.strftime("%Y-%m-%d") + ']] [[Event:Date::>='+ pub_date.strftime("%Y-%m-%d") + ']] |?Event:Date|?Event:EndDate|?Event:Name|?Event:Location|?Event:Organiser/s|?Event:Source|?Event:Spotlight', 'format': 'json', 'formatversion': '2'})
             data = response.json()
             opp_info = {}
             if not data['query']['results']:
@@ -185,7 +186,17 @@ class WikiApp(Flask):
                         source = page_data['printouts']['Event:Source'][0]
                         org = page_data['printouts']['Event:Organiser/s'][0]['fulltext']
                         
-                        opp_info = {'pagetitle': page_title, 'name': name, 'deadline': formatted_deadline, 'endDate': formatted_EndDate,'location': location, 'source' : source, 'org': org, 'text': ''}
+                        try:
+                            spotlight = page_data['printouts']['Event:Spotlight'][0]
+                            if spotlight == 't':
+                                spotlight = True
+                            else:
+                                spotlight = False
+                        except:
+                            spotlight = False
+                        
+                        
+                        opp_info = {'pagetitle': page_title, 'name': name, 'deadline': formatted_deadline, 'endDate': formatted_EndDate,'location': location, 'source' : source, 'org': org, 'spotlight': spotlight, 'text': ''}
                         
                         if type not in opp_page_list:
                             opp_page_list[type] = []
