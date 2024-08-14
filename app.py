@@ -34,7 +34,6 @@ class WikiApp(Flask):
         new_date_events = given_date + relativedelta(weeks=4)
         opportunites_dict = self.fetch_opportunities(given_date.date(), new_date_opp.date())
         events_dict = self.fetch_events(given_date.date(), new_date_events.date())
-        print(events_dict)
         return render_template('newsletter.html', nav_elements=self.get_nav_menu(), content=content, title=title, events=events_dict, opportunities=opportunites_dict)
 
     def fetch_opportunities(self, pub_date, future_date):
