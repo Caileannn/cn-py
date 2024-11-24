@@ -15,7 +15,7 @@ class WikiApp(Flask):
                 
         # Define routes
         # self.route('/', methods=['GET'])(self.homepage)
-        self.route('/', methods=['GET'])(self.homepage_new)
+        self.route('/', methods=['GET'])(self.home)
         self.route('/data', methods=['GET'])(self.data_int)
         self.route('/newsletter/<string:title>', methods=['GET'])(self.generate_newsletter)
         self.route('/publications', methods=['GET'])(self.fetch_publications)
@@ -23,6 +23,21 @@ class WikiApp(Flask):
         self.route('/<string:title>', methods=['GET'])(self.page_content)
         self.route('/favicon.ico')(self.favicon)
         self.route('/archive/<string:collection>', methods=['GET'])(self.get_collection)
+        
+    # Return Homepage
+    def home(self):    
+        pages = ['Homepage']
+        homepage_content = ''
+        for page in pages:
+            # Make a request to MediaWiki API to get content of a specific page
+            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'parse', 'page': page, 'format': 'json'})
+            data = response.json()
+            # Extract page title and content
+            page_content = data['parse']['text']['*']
+            page_content = self.fix_html(page_content)
+            homepage_content += page_content
+        
+        return render_template('index.html', title=pages[0], cont=homepage_content)
        
     def data_int(self):
         return render_template('data.html')
@@ -299,7 +314,8 @@ class WikiApp(Flask):
         page_title = data['parse']['title']
         page_content = data['parse']['text']['*']
         page_content = self.fix_html(page_content)
-        return render_template('article.html', nav_elements=self.get_nav_menu(), title=page_title, content=page_content)
+        return render_template('index.html', title=page_title, cont=page_content)
+        
     
     def fetch_page(self, title):
         # Make a request to MediaWiki API to get content of a specific page
@@ -372,22 +388,33 @@ class WikiApp(Flask):
             file_link.unwrap()
             
         soup = self.remove_thumbnail_img(soup)
-        # Locate the table and the comment
+        
+        # Locate the table and store it in an object
         table = soup.find('table')
+        
         # Remove inline styles by deleting the 'style' attribute
         if table and 'style' in table.attrs:
             del table['style']
         
-        # Add the class 'table-cont' to the table
+        # Add the class 'table-cont' to the table (if not already removed)
         if table:
             table['class'] = table.get('class', []) + ['table-cont']
+            
         comments = soup.find_all(string=lambda text: isinstance(text, Comment))
         comment = comments[-1] if comments else None
         
         # Insert the table before the comment
         if comment and table is not None:
             comment.insert_before(table.extract())
-    
+            
+        table_html = str(table) if table else None  # Store the table HTML
+        
+        # Remove the table from the main HTML
+        if table:
+            table.decompose()
+
+
+        # Return the modified HTML
         return soup.prettify()
     
     def remove_thumbnail_img(self, soup):

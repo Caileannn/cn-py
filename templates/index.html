@@ -1,0 +1,40 @@
+{% extends "_base.html" %}
+
+{% block title %}CONCEPT NULL{% endblock %}
+
+{% block content %}
+<div id="main-container">
+    <div id="index-container" class="disable-scrollbar">
+        <div id="index-header" class="title">
+            <div>CONCEPT NULL</div>
+            <div class="astr-line">&#x2732; &#x2732; &#x2732;</div>
+        </div>
+        <div id="index-content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat dignissim justo, posuere imperdiet justo condimentum at. Sed eget odio vitae velit efficitur facilisis lacinia eget libero. Donec ex magna, laoreet id hendrerit at, varius et sem. Phasellus tempor ante in felis vehicula, vitae rhoncus tellus posuere. Ut nec sodales urna. Sed molestie lectus vel dolor maximus, sed cursus urna mattis. Cras eu mauris sit amet mauris lacinia accumsan vitae eu arcu. Duis quis mollis mauris. Maecenas condimentum ac tortor vel sodales. Fusce eget erat ut odio interdum porta. Donec placerat nisl id dui dapibus, finibus volutpat massa placerat. Donec commodo pellentesque ipsum eget ullamcorper. Praesent fermentum sit amet turpis sit amet sagittis. Aliquam tempus, sapien eget tincidunt luctus, urna felis molestie dolor, ac blandit arcu erat vitae eros. Morbi a lacus laoreet, varius eros ut, rutrum nibh.</p>
+        </div>
+        <div id="index-links">
+            <div id="index-link-list">
+                <div><a href="#" class="button-link">e-mail &#8595;</a></div>
+                <div><a href="#" class="button-link">activities &#8595;</a></div>
+                <div><a href="#" class="button-link">newsletter &#8595;</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="line-divider"></div>
+
+    <div id="content-container" class="disable-scrollbar">
+        <div id="content-title" class="title">{{ title | safe }}</div>
+        <div id="content-body">
+            {{ cont | safe }}
+        </div>
+        <div class="title astr-line">&#x2732; &#x2732; &#x2732;</div>
+        <div id="content-metadata">
+            <div id="wiki-box">
+
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
