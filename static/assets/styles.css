@@ -75,6 +75,7 @@ a {
 #index-content {
     padding-left: 60px;
     padding-right: 60px;
+    text-align: justify;
 }
 
 #index-links {
@@ -114,6 +115,7 @@ a {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    text-align: justify;
 }
 
 #content-body img{
