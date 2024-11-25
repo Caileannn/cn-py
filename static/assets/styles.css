@@ -24,6 +24,19 @@ body {
     overflow: hidden;
 }
 
+* {
+    margin:0;
+    padding:0;
+    border:0;
+    font-family: "Inter", serif;
+    -webkit-text-size-adjust:none;
+}
+
+a {
+    text-decoration: none;
+    color:black;
+}
+
 #main-container {
     height: 100%;
     width: 100%;
@@ -88,6 +101,11 @@ body {
     overflow-x: hidden;
 }
 
+#content-container a{
+    text-decoration: underline;
+    color:blue;
+}
+
 #content-title {
     text-decoration: underline;
 }
@@ -98,10 +116,42 @@ body {
     gap: 20px;
 }
 
+#content-body img{
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%) contrast(1.75);
+}
+
+#wiki-box {
+    border-style: dashed;
+}
+
 
 #line-divider {
     width: 2px; /* Thickness of the divider */
     background-color: black; /* Color of the line */
+}
+
+/*
+    table
+*/
+
+table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    unicode-bidi: isolate;
+    border-spacing: 20px;
+    border-color: gray;
+    border-radius: 30px;
+    font-size: 16px;
+}
+
+th {
+    text-transform: uppercase;
 }
 
 /*
@@ -154,4 +204,33 @@ p {
     width: fit-content;
     font-size: 12px;
     font-weight: bold;
+}
+
+/* headers */
+h4 {
+    font-size: 24px;
+    margin: 0;
+    color: black;
+}
+
+h3 {
+    font-size: 26px;
+    margin: 0;
+    color: black;
+}
+
+h2 {
+    font-size: 28px;
+    margin: 0;
+    color: black;
+}
+
+h1 {
+    font-size: 30px;
+    margin: 0;
+    color: black;
+}
+
+hr {
+    border-top: 1px solid black; 
 }

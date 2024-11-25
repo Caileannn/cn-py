@@ -34,10 +34,10 @@ class WikiApp(Flask):
             data = response.json()
             # Extract page title and content
             page_content = data['parse']['text']['*']
-            page_content = self.fix_html(page_content)
+            page_content, table = self.fix_html(page_content)
             homepage_content += page_content
-        
-        return render_template('index.html', title=pages[0], cont=homepage_content)
+        print(table)
+        return render_template('index.html', title=pages[0], cont=homepage_content, table=table)
        
     def data_int(self):
         return render_template('data.html')
@@ -313,8 +313,9 @@ class WikiApp(Flask):
         # Extract page title and content
         page_title = data['parse']['title']
         page_content = data['parse']['text']['*']
-        page_content = self.fix_html(page_content)
-        return render_template('index.html', title=page_title, cont=page_content)
+        page_content, table = self.fix_html(page_content)
+        print(table)
+        return render_template('index.html', title=page_title, cont=page_content, table=table)
         
     
     def fetch_page(self, title):
@@ -364,7 +365,7 @@ class WikiApp(Flask):
         for link in links:
             # Add _blank to href
             link['target'] = '_blank'
-            link.string = link.string.strip() + " ↗"
+            link.string = link.string.strip()
             
         # Find all a tags with href containing 'index.php'
         links = soup.find_all('a', href=lambda href: href and 'index.php' in href)
@@ -409,13 +410,30 @@ class WikiApp(Flask):
             
         table_html = str(table) if table else None  # Store the table HTML
         
+        has_content = False
+        # Check if the table has meaningful rows
+        if table:
+            rows = table.find_all('tr')
+            has_content = False  # Assume no meaningful content
+
+            for row in rows:
+                cells = row.find_all(['td', 'th'])
+                # Check if any cell has non-empty text
+                if any(cell.get_text(strip=True) for cell in cells):
+                    has_content = True
+                    break
+                
+        if has_content is False:
+            table_html = None
+            
+        
         # Remove the table from the main HTML
         if table:
             table.decompose()
 
 
         # Return the modified HTML
-        return soup.prettify()
+        return soup.prettify(), table_html
     
     def remove_thumbnail_img(self, soup):
         thumbnail = soup.find_all(attrs={"typeof": "mw:File/Thumb"})
