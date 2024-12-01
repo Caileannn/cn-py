@@ -16,6 +16,7 @@ class WikiApp(Flask):
         # Define routes
         # self.route('/', methods=['GET'])(self.homepage)
         self.route('/', methods=['GET'])(self.home)
+        self.route('/activities', methods=['GET'])(self.activities)
         self.route('/data', methods=['GET'])(self.data_int)
         self.route('/newsletter/<string:title>', methods=['GET'])(self.generate_newsletter)
         self.route('/publications', methods=['GET'])(self.fetch_publications)
@@ -38,6 +39,21 @@ class WikiApp(Flask):
             homepage_content += page_content
         print(table)
         return render_template('index.html', title=pages[0], cont=homepage_content, table=table)
+    
+    def activities(self):
+        # fetch publications as test
+        activity_list = self.get_activities()
+        return render_template('activities.html', title="Activities", activities=activity_list)
+    
+    def get_activities(self):
+        concepts = ['Newsletters', 'Projects']
+        publication_page_list = self.fetch_all_pages(concepts)
+        updated_cat_list = self.fetch_pages_cat(publication_page_list)
+        projects = updated_cat_list.get('Projects', [])
+        sorted_prj = dict(sorted(projects.items(), key=lambda item: datetime.strptime(item[1]['date'], "%d.%m.%Y" ), reverse=True) )
+        newsletters = updated_cat_list.get('Newsletters', [])
+        sorted_nl = dict(sorted(newsletters.items(), key=lambda item: datetime.strptime(item[1]['date'], "%d.%m.%Y" ), reverse=True) )
+        return sorted_nl
        
     def data_int(self):
         return render_template('data.html')

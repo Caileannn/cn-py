@@ -1,0 +1,14 @@
+<div id="content-container" class="disable-scrollbar">
+    <div id="content-title" class="title">{{ title | safe }}</div>
+    <div id="content-body">
+        {{ cont | safe }}
+    </div>
+    <div class="astr-line">&#x2732; &#x2732; &#x2732;</div>
+    <div id="content-metadata">
+        {%if table != None %}
+        <div id="wiki-box">
+            {{ table | safe }}
+        </div>
+        {%endif%}
+    </div>
+</div>
