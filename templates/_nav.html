@@ -19,8 +19,13 @@ MM.         MM.      ,MP M   `MM.M MM.           MM   Y  ,   MM            MM
     </div></a>
     <div id="ascii-menu">
       <div class="astr-line-menu">&#x2732; &#x2732; &#x2732;</div>
-      <div class="list-container"><a href="/activities" class="button-link">MENU</a></div>
+      <div class="list-container" id="menu-btn"><a class="button-link">MENU</a></div>
       <div class="astr-line-menu">&#x2732; &#x2732; &#x2732;</div>
+    </div>
+    <div id="nav-menu">
+      <div class="list-container-mobile"><a href="/activities" class="button-link">activities &#8595;</a></div>
+      <div class="list-container-mobile"><a href="https://conceptnull.substack.com/subscribe" target="_blank" class="button-link">newsletter &#8595;</a></div>
+      <div class="list-container-mobile"><a href="https://www.instagram.com/conceptnull/" class="button-link">instagram &#8595;</a></div>
     </div>
     <div class="astr-line">&#x2732; &#x2732; &#x2732;</div>
     <div id="index-content">
@@ -34,3 +39,5 @@ MM.         MM.      ,MP M   `MM.M MM.           MM   Y  ,   MM            MM
         </div>
     </div>
 </div>
+
+<script src={{ url_for('static', filename='assets/js/toggle.js') }}></script>

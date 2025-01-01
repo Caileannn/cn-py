@@ -251,6 +251,26 @@ p {
     padding-bottom: 20px;
 }
 
+#nav-menu {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+}
+
+/* Add a class to show the menu */
+#nav-menu.show {
+    display: flex;
+    max-height: 400px;
+}
+
+#nav-menu .button-link {
+    width: 100%;
+}
+
 /* headers */
 h4 {
     font-size: 24px;
@@ -278,6 +298,10 @@ h1 {
 
 hr {
     border-top: 1px solid black; 
+}
+
+.list-container-mobile {
+    width: 100%;
 }
 
 /* breakpoints */
