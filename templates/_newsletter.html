@@ -1,0 +1,99 @@
+<div id="content-container" class="disable-scrollbar">
+    <div id="content-title" class="title">{{ title | safe }}</div>
+    <div id="content-body">
+        {{ cont | safe }}
+
+        <div class='event-cont'>
+            {% if spotlight %}
+                {% for key, value in events.items() %}
+                    <hr>
+                    <h2 class="opportunity-text-padding">🔦 Spotlight</h2>
+                    <hr>
+                    <div>
+                    <p>&#8203;</p>
+                    {% for data in value %}
+                        {% if data.spotlight %}
+                        <div>
+                            <a href='/{{ data.pagetitle }}' target="_blank"><h4><b>{{ data.name }}</b></h4></a>
+                            <p><b>Organiser/s: </b>{{ data.org }}</p>
+                            <p><b>Location: </b>{{ data.location }}</p>
+                            <p><b>Date: </b>{{ data.deadline }} &#8594; {{ data.endDate}}</p>
+                            <p class="opportunity-text-padding">{{ data.text }}</p>
+                            <a href={{ data.source }} target='_blank'><p><b>Source ↗</b></p></a>
+                        </div>
+                        <p>&#8203;</p>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+    
+            {% for key, value in events.items() %}
+                <hr>
+                <h2 class="opportunity-text-padding">🎪 Events</h2>
+                <hr>
+                <div>
+                <p>&#8203;</p>
+                {% for data in value %}
+                    {% if not data.spotlight %}
+                        <div>
+                            <a href='/{{ data.pagetitle }}' target="_blank"><h4><b>{{ data.name }}</b></h4></a>
+                            <p><b>Organiser/s: </b>{{ data.org }}</p>
+                            <p><b>Location: </b>{{ data.location }}</p>
+                            <p><b>Date: </b>{{ data.deadline }} &#8594; {{ data.endDate}}</p>
+                            <p class="opportunity-text-padding">{{ data.text }}</p>
+                            <a href={{ data.source }} target='_blank'><p><b>Source ↗</b></p></a>
+                        </div>
+                        <p>&#8203;</p>
+                    {%endif%}
+                {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    
+        <div>
+            {% for key, value in opportunities.items() %}
+                <hr>
+                <h2 class="opportunity-text-padding">{{ key }}</h2>
+                <hr>
+                <div>
+                <p>&#8203;</p>
+                {% for data in value %}
+                <div class='opp'>
+                    <a href='/{{ data.pagetitle }}' target="_blank"><h4><b>{{ data.name }}</b></h4></a>
+                    <p><b>Deadline:</b> {{ data.deadline }}</p>
+                    <p><b>Organiser/s: </b>{{ data.org }}</p>
+                    <p><b>Location: </b>{{ data.location }}</p>
+                    <p class="opportunity-text-padding">{{ data.text }}</p>
+                    <a href={{ data.source }} target='_blank'><p><b>Source ↗</b></p></a>
+                    <p>&#8203;</p>
+                </div>
+                
+                {% endfor %}
+                </div>
+            {% endfor %}
+            <hr>
+        </div>
+    
+        <div class='article-cont'>
+            <p>That’s it for now! The newsletter gets sent out 1st and 15th of every month and we post open calls and events as they come in on our <a href='https://www.instagram.com/conceptnull/' target='_blank'>Instagram</a> so be sure to follow us there.</p>
+            <p>&#8203;</p>
+            <p>Again, thank you for all of your support as we continue to grow our project with the help of a great community and, as we always say, we would love to hear your thoughts, projects, events or other open opportunities so drop us an email.</p>
+            <p>&#8203;</p>
+            <p>Chat soon, <a href='https://conceptnull.org/' target='_blank'>Concept NULL</a></p>      
+            <p>&#8203;</p>
+            <p>[conceptnullofficial@gmail.com]</p>
+        </div>
+
+    </div>
+
+    <div class="astr-line">&#x2732; &#x2732; &#x2732;</div>
+    
+    <div id="content-metadata">
+        {%if table != None %}
+        <div id="wiki-box">
+            {{ table | safe }}
+        </div>
+        {%endif%}
+    </div>
+</div>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CONCEPT NULL</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/data-styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+    <script src="{{ url_for('static', filename='assets/data/libraries/p5.sound.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/data/libraries/quicksettings.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/data/libraries/p5.gui.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/data/libraries/p5.patgrad.js') }}"></script>
+	<script src="{{ url_for('static', filename='assets/js/gradient.js') }}"></script>
+	<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/images/favicon.png') }}">
+  </head>
+
+  <body onload="showAboutOnPageLoad()">
+    <div class="divider">
+      <div id="sketch" class="sketch"></div>
+	  <div id="text-view-button">
+		<div id="tv-button">
+			<img src = "{{ url_for('static', filename='assets/data/assets/okay.svg') }}" alt="text-view"/>
+		</div>
+	  </div>
+      <div class="break"></div>
+      <div class="text" id="text-view">
+        <div class="text-group">
+          <div class="text-header">
+			<div class="tool1">
+				<div class="t1-box">
+					<div class="t1-1" id="arrow-p">➜</div>
+					<div class="t1-1" id="percent">60%</div>
+				</div>
+			</div>
+            <div class="title">
+			  <p class="title2">THE BIG</p>
+              <p class="title2">D.A.T.A</p>
+			  <p class="title1" id="switch-to-network">INTERVIEW</p>
+            </div>
+			<div class="tool2">
+				<div class="t2-box">
+					<div class="t2-1" id="about-interview">💁</div>
+					<div class="t2-1" id="data-link"><a href="https://www.data.ie/datasite/" target="_blank">🔗</a></div>
+				</div>
+			</div>
+          </div>
+          <div id="text-body">
+            
+          </div>
+          
+        </div>
+        <div class="text-footer">
+        </div>
+		<div class="network-button" id="network-button">
+			<img src = "{{ url_for('static', filename='assets/data/assets/okay.svg') }}" alt="text-view"/>
+		</div>
+		<div class="mobile-about-button" id="mobile-about-button">
+			<img id="mobile-btn" src = "{{ url_for('static', filename='assets/data/assets/info.svg') }}" alt="text-view"/>
+		</div>
+		<div class="mobile-percent">
+			<div class="t1-am" id="percent-mobile"></div>
+		</div>
+		<div class="mobile-arrow">
+			<div class="t1-am" id="arrow-mobile">➜</div>
+		</div>
+        
+      </div>
+	  <div class="about-pop-up" id="about-section">
+		<div class="about-header">
+			About
+		</div>
+		<div class="about-body">
+			<p>At the start of the summer, we had the pleasure of chatting with Paul, Tom and Aisling who are current facilitators of the Dublin Art & Technology Association. D.A.T.A has created a platform for artists, makers and thinkers to share knowledge about digital cultures and practices in Ireland since its genesis in 2002.</p>
+			<p>In our conversation, we had the opportunity to touch on topics such as D.A.T.A's identity, how it has evolved over the years, and a deeper look into their approach behind the process of curating & organising events.</p>
+			<p>We hope you enjoy the deeply insightful conversation with D.A.T.A, while having some fun navigating its latent space!</p>
+			<p class="tech-about">The website has been designed to visualise the interview in a linear and non-linear format. The interview was processed through a machine/natural language processing algorithm, which ranked each segment of text against various topics that surfaced during the interview.</p>
+			<p class="tech-about">As a result, the algorithm created a high-dimensional version of the interview, which is commonly referred to as the latent space. Once created, the machine's multidimensional understanding of the text was flattened using a t-SNE algorithm, producing the 2D mapping of the interview.</p>
+		</div>
+		<div class="about-footer">
+		</div>
+	  </div>
+    </div>
+	
+    <script src="{{ url_for('static', filename='assets/js/sketch.js') }}"></script>
+	
+    
+  </body>
+</html>
