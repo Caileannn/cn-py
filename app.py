@@ -14,18 +14,51 @@ class WikiApp(Flask):
         super().__init__(*args, **kwargs)
                 
         # Define routes
-        # self.route('/', methods=['GET'])(self.homepage)
-        self.route('/', methods=['GET'])(self.homepage_new)
+        self.route('/', methods=['GET'])(self.home)
+        self.route('/activities', methods=['GET'])(self.activities)
         self.route('/data', methods=['GET'])(self.data_int)
+        self.route('/generate-nl', methods=['GET'])(self.create_nl)
         self.route('/newsletter/<string:title>', methods=['GET'])(self.generate_newsletter)
-        self.route('/publications', methods=['GET'])(self.fetch_publications)
-        self.route('/meetups', methods=['GET'])(self.fetch_meetups)
         self.route('/<string:title>', methods=['GET'])(self.page_content)
         self.route('/favicon.ico')(self.favicon)
-        self.route('/archive/<string:collection>', methods=['GET'])(self.get_collection)
+        
+    # Return Homepage
+    def home(self):    
+        pages = ['Homepage']
+        homepage_content = ''
+        for page in pages:
+            # Make a request to MediaWiki API to get content of a specific page
+            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'parse', 'page': page, 'format': 'json'})
+            data = response.json()
+            # Extract page title and content
+            page_content = data['parse']['text']['*']
+            page_content, table = self.fix_html(page_content)
+            homepage_content += page_content
+        return render_template('index.html', cont=homepage_content, table=table)
+    
+    def activities(self):
+        # fetch publications as test
+        activity_list = self.get_activities()
+        return render_template('activities.html', title="Activities", activities=activity_list)
+    
+    def get_activities(self):
+        concepts = ['Activities']
+        publication_page_list = self.fetch_all_activies(concepts)
+        updated_cat_list = self.fetch_pages_cat(publication_page_list)
+        activities = updated_cat_list.get('Activities', [])
+        srted_activities = dict(sorted(activities.items(), key=lambda item: datetime.strptime(item[1]['date'], "%d.%m.%Y" ), reverse=True) )
+        # projects = updated_cat_list.get('Projects', [])
+        # sorted_prj = dict(sorted(projects.items(), key=lambda item: datetime.strptime(item[1]['date'], "%d.%m.%Y" ), reverse=True) )
+        # newsletters = updated_cat_list.get('Newsletters', [])
+        # sorted_nl = dict(sorted(newsletters.items(), key=lambda item: datetime.strptime(item[1]['date'], "%d.%m.%Y" ), reverse=True) )
+        return srted_activities
        
     def data_int(self):
         return render_template('data.html')
+    
+    def create_nl(self):
+        # Function for generating a newsletter
+        pass
          
     def generate_newsletter(self, title):
         content, title, date = self.fetch_page(title)
@@ -34,7 +67,16 @@ class WikiApp(Flask):
         new_date_events = given_date + relativedelta(weeks=4)
         opportunites_dict = self.fetch_opportunities(given_date.date(), new_date_opp.date())
         events_dict = self.fetch_events(given_date.date(), new_date_events.date())
-        return render_template('newsletter.html', nav_elements=self.get_nav_menu(), content=content, title=title, events=events_dict, opportunities=opportunites_dict)
+        
+        spotlight = False
+        # Loop through the events and check the spotlight attribute
+        for category, events in events_dict.items():
+            for event in events:
+                if event['spotlight']:
+                    spotlight = True
+                    break
+        
+        return render_template('newsletter.html', nav_elements=self.get_nav_menu(), cont=content, title=title, events=events_dict, opportunities=opportunites_dict, spotlight=spotlight)
 
     def fetch_opportunities(self, pub_date, future_date):
         all_opportunities = self.fetch_all_opportunities(pub_date, future_date)
@@ -259,6 +301,24 @@ class WikiApp(Flask):
                             category_page_list[category][page_title].update({'pageid':pageid, 'title': title, 'source': source })
                             
         return category_page_list
+    
+    def fetch_all_activies(self, categories):
+        category_page_list = {} 
+        for category in categories:
+            response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:'+category+']]|?Activities:Date|?Activities:Draft', 'format': 'json', 'formatversion': '2'})
+            data = response.json()
+            page_title_timestamps = {}
+            for page_title, page_data in data['query']['results'].items():
+                if 'printouts' in page_data and 'Activities:Date' in page_data['printouts']:
+                    raw_timestamp = page_data['printouts']['Activities:Date'][0]['raw']
+                    raw_timestamp = raw_timestamp[2:]
+                    lol = datetime.strptime(raw_timestamp, "%Y/%m/%d")
+                    formatted_date = lol.strftime("%d.%m.%Y")
+                    if(page_data['printouts']['Activities:Draft'][0] == 'f'):
+                        page_title_timestamps[page_title] = {'date': formatted_date, 'draft': page_data['printouts']['Activities:Draft'][0]}
+                    
+            category_page_list[category] = page_title_timestamps
+        return category_page_list
       
     def fetch_all_pages(self, categories):
         category_page_list = {} 
@@ -296,10 +356,17 @@ class WikiApp(Flask):
         data = response.json()
         
         # Extract page title and content
-        page_title = data['parse']['title']
-        page_content = data['parse']['text']['*']
-        page_content = self.fix_html(page_content)
-        return render_template('article.html', nav_elements=self.get_nav_menu(), title=page_title, content=page_content)
+        try:
+            page_title = data['parse']['title']
+            page_content = data['parse']['text']['*']
+            page_content, table = self.fix_html(page_content)
+        except:
+            page_title = 'Page not found'
+            page_content = 'The page you are looking for does not exist.'
+            table = None
+        
+        return render_template('index.html', title=page_title, cont=page_content, table=table)
+        
     
     def fetch_page(self, title):
         # Make a request to MediaWiki API to get content of a specific page
@@ -308,14 +375,15 @@ class WikiApp(Flask):
         # Extract page title and content
         page_title = data['parse']['title']
         page_content = data['parse']['text']['*']
-        page_content = self.fix_html(page_content)
+        page_content, table = self.fix_html(page_content)
         page_date = re.search(r'\d{4}-\d{2}-\d{2}', data['parse']['text']['*'])
         
         if(page_date):
             date = page_date.group(0)
-            return page_content, page_title, date
         else:
-            return page_content, page_title
+            date = None
+            
+        return page_content, page_title, date
     
     def get_nav_menu(self):
         response = requests.get(self.MEDIAWIKI_BASE_URL + self.BASE_API, params={'action': 'ask', 'query': '[[Concept:MainNavigation]]', 'format': 'json', 'formatversion': '2'})
@@ -348,7 +416,7 @@ class WikiApp(Flask):
         for link in links:
             # Add _blank to href
             link['target'] = '_blank'
-            link.string = link.string.strip() + " ↗"
+            link.string = link.string.strip()
             
         # Find all a tags with href containing 'index.php'
         links = soup.find_all('a', href=lambda href: href and 'index.php' in href)
@@ -372,23 +440,51 @@ class WikiApp(Flask):
             file_link.unwrap()
             
         soup = self.remove_thumbnail_img(soup)
-        # Locate the table and the comment
+        
+        # Locate the table and store it in an object
         table = soup.find('table')
+        
         # Remove inline styles by deleting the 'style' attribute
         if table and 'style' in table.attrs:
             del table['style']
         
-        # Add the class 'table-cont' to the table
+        # Add the class 'table-cont' to the table (if not already removed)
         if table:
             table['class'] = table.get('class', []) + ['table-cont']
+            
         comments = soup.find_all(string=lambda text: isinstance(text, Comment))
         comment = comments[-1] if comments else None
         
         # Insert the table before the comment
         if comment and table is not None:
             comment.insert_before(table.extract())
-    
-        return soup.prettify()
+            
+        table_html = str(table) if table else None  # Store the table HTML
+        
+        has_content = False
+        # Check if the table has meaningful rows
+        if table:
+            rows = table.find_all('tr')
+            has_content = False  # Assume no meaningful content
+
+            for row in rows:
+                cells = row.find_all(['td', 'th'])
+                # Check if any cell has non-empty text
+                if any(cell.get_text(strip=True) for cell in cells):
+                    has_content = True
+                    break
+                
+        if has_content is False:
+            table_html = None
+            
+        
+        # Remove the table from the main HTML
+        if table:
+            table.decompose()
+
+
+        # Return the modified HTML
+        return soup.prettify(), table_html
     
     def remove_thumbnail_img(self, soup):
         thumbnail = soup.find_all(attrs={"typeof": "mw:File/Thumb"})

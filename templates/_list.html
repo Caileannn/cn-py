@@ -1,0 +1,25 @@
+<div id="content-container" class="disable-scrollbar">
+    <div id="content-title" class="title">{{ title | safe }}</div>
+    <p>Announcements, Events, and Other CONCEPT NULL related activities ╰(*°▽°*)╯</p>
+    <div class="astr-line">&#x2732; &#x2732; &#x2732;</div>
+    <div id="content-body">
+        <div id="activity-list">
+        {% for key, value in activities.items() %}
+            <a href="/{{key}}">
+                <div class="activity">
+                    <h1 class="activity-title"> {{ key }} ({{ value.date }})</h1>
+                    <div class="activity-image"><img src="{{ value.source }}"></div>
+                </div>
+            </a>
+        {% endfor %}
+        </div>
+    </div>
+    <div class="astr-line">&#x2732; &#x2732; &#x2732;</div>
+    <div id="content-metadata">
+        {%if table != None %}
+        <div id="wiki-box">
+            {{ table | safe }}
+        </div>
+        {%endif%}
+    </div>
+</div>

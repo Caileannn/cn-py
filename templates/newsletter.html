@@ -1,87 +1,13 @@
-{% extends "base.html" %}
-{% block title %}Ø | {{ title }}{% endblock %}
+{% extends "_base.html" %}
+
+{% block title %}CONCEPT NULL{% endblock %}
+
 {% block content %}
-<div class='content-cont'>
-	<h1 class='content-header'>{{ title }}</h1>
-    <div class='article-cont'>
-    	{{ content | safe }}
-	</div>
-	<p>&#8203;</p>
-	<div class='event-cont'>
-		{% for key, value in events.items() %}
-			<hr>
-			<h2 class='event-heading'>🔦 Spotlight</h2>
-			<hr>
-			<div class='list-events'>
-			{% for data in value %}
-				{% if data.spotlight %}
-				<div class='event'>
-					<a class='link' href='/{{ data.pagetitle }}' target="_blank"><h4 class='event-name'><b>{{ data.name }}</b></h4></a>
-					<p class='event-org'><b>Organiser/s: </b>{{ data.org }}</p>
-					<p class='event-location'><b>Location: </b>{{ data.location }}</p>
-					<p class='event-deadline'><b>Date: </b>{{ data.deadline }} &#8594; {{ data.endDate}}</p>
-					<p class='event-text'>{{ data.text }}</p>
-					<a href={{ data.source }} target='_blank'><p class='event-link'><b>Link ↗</b></p></a>
-				</div>
-				<p>&#8203;</p>
-				{% endif %}
-			{% endfor %}
-			</div>
-		{% endfor %}
 
-		{% for key, value in events.items() %}
-			<hr>
-			<h2 class='event-heading'>🎪 Events</h2>
-			<hr>
-			<div class='list-events'>
-			{% for data in value %}
-				{% if not data.spotlight %}
-					<div class='event'>
-						<a class='link' href='/{{ data.pagetitle }}' target="_blank"><h4 class='event-name'><b>{{ data.name }}</b></h4></a>
-						<p class='event-org'><b>Organiser/s: </b>{{ data.org }}</p>
-						<p class='event-location'><b>Location: </b>{{ data.location }}</p>
-						<p class='event-deadline'><b>Date: </b>{{ data.deadline }} &#8594; {{ data.endDate}}</p>
-						<p class='event-text'>{{ data.text }}</p>
-						<a href={{ data.source }} target='_blank'><p class='event-link'><b>Link ↗</b></p></a>
-					</div>
-					<p>&#8203;</p>
-				{%endif%}
-			{% endfor %}
-			</div>
-		{% endfor %}
-	</div>
-
-	<div class='opp-cont'>
-		{% for key, value in opportunities.items() %}
-			<hr>
-			<h2 class='opp-type-heading'>{{ key }}</h2>
-			<hr>
-			<div class='list-opp'>
-			{% for data in value %}
-			<div class='opp'>
-				<a class='link' href='/{{ data.pagetitle }}' target="_blank"><h4 class='opp-name'><b>{{ data.name }}</b></h4></a>
-				<p class='opp-deadline'><b>Deadline:</b> {{ data.deadline }}</p>
-				<p class='opp-location'><i>{{ data.location }}</i></p>
-				<p class='opp-text'>{{ data.text }}</p>
-				<a href={{ data.source }} target='_blank'><p class='opp-link'><b>Link ↗</b></p></a>
-				<p>&#8203;</p>
-			</div>
-			
-			{% endfor %}
-			</div>
-		{% endfor %}
-	<hr>
-	</div>
-
-	<div class='article-cont'>
-		<p>That’s it for now! The newsletter gets sent out 1st and 15th of every month and we post open calls and events as they come in on our <a href='https://www.instagram.com/conceptnull/' target='_blank'>Instagram</a> so be sure to follow us there.</p>
-
-		<p>Again, thank you for all of your support as we continue to grow our project with the help of a great community and, as we always say, we would love to hear your thoughts, projects, events or other open opportunities so drop us an email.</p>
-			
-		<p>Chat soon, <a href='https://conceptnull.org/' target='_blank'>Concept NULL</a></p>
-			
-		<p>[conceptnullofficial@gmail.com]</p>
-	</div>
+<div id="main-container">
+    {% include "_nav.html" %}
+    <div id="line-divider"></div>
+    {% include "_newsletter.html" %}
 </div>
 
 {% endblock %}
