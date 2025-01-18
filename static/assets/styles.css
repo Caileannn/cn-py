@@ -216,7 +216,7 @@ p {
     font-family: 'Courier New', Courier, monospace;
     white-space: pre;
     width: fit-content;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: bold;
 }
 
@@ -308,7 +308,7 @@ hr {
 
 @media only screen and (max-width: 1440px) {
     .ascii {
-        font-size: 9px;
+        font-size: 6px;
     }
 
     #content-body img{
@@ -323,14 +323,14 @@ hr {
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (max-width: 1200px) {
     .ascii {
-        font-size: 7px;
+        font-size: 6px;
     }
 }
 
 /* Tablets, iPads (portrait phones, less than 1024px) */
 @media only screen and (max-width: 1024px) {
     .ascii {
-        font-size: 6px;
+        font-size: 4px;
     }
 
     .astr-line {
@@ -376,7 +376,7 @@ hr {
 /* Mobile devices (portrait phones, less than 768px) */
 @media only screen and (max-width: 768px) {
     .ascii {
-        font-size: 7px;
+        font-size: 5px;
     }
 
     .astr-line {
@@ -470,7 +470,7 @@ hr {
 
 @media only screen and (max-width: 500px) {
     .ascii {
-        font-size: 4px;
+        font-size: 3px;
     }
 
     .astr-line-menu {
