@@ -470,7 +470,7 @@ hr {
 
 @media only screen and (max-width: 500px) {
     .ascii {
-        font-size: 3px;
+        font-size: 2.5px;
     }
 
     .astr-line-menu {
