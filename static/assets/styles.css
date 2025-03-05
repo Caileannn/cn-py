@@ -216,7 +216,7 @@ p {
     font-family: 'Courier New', Courier, monospace;
     white-space: pre;
     width: fit-content;
-    font-size: 10px;
+    font-size: 8px;
     font-weight: bold;
 }
 
@@ -323,7 +323,7 @@ hr {
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (max-width: 1200px) {
     .ascii {
-        font-size: 6px;
+        font-size: 5px;
     }
 }
 
