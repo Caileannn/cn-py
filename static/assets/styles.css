@@ -253,7 +253,7 @@ p {
 
 #nav-menu {
     width: 90%;
-    display: flex;
+    display: none;
     flex-direction: column;
     gap:10px;
     max-height: 0;
@@ -269,6 +269,13 @@ p {
 
 #nav-menu .button-link {
     width: 100%;
+}
+
+#nav-logo img{
+    max-width: 100%;
+    height: auto;
+    padding-top: 10px;
+
 }
 
 /* headers */
@@ -465,6 +472,11 @@ hr {
 
     #content-body img {
         width: 100%;
+    }
+
+    #nav-logo img {
+        width: auto;
+        height: 100px;
     }
 }
 
