@@ -1,0 +1,173 @@
+<div id="content-container" class="disable-scrollbar">
+    <div id="content-title" class="title">{{ title | safe }}</div>
+    <div id="content-body">
+        <div class="article-cont">
+            <p>Browse PocketBase opportunities within a date range. The list updates when either date changes.</p>
+        </div>
+
+        <form id="opportunity-filter" method="get" action="/opportunities">
+            <label for="start_date">Start date</label>
+            <input id="start_date" type="date" name="start_date" value="{{ start_date }}">
+
+            <label for="end_date">End date</label>
+            <input id="end_date" type="date" name="end_date" value="{{ end_date }}">
+
+            <button type="submit">Update</button>
+        </form>
+
+        <div class="article-cont">
+            <p>{{ range_label }}</p>
+            <p>{{ total_opportunities }} opportunities found.</p>
+        </div>
+
+        {% if events %}
+        <div class='event-cont'>
+            {# Spotlight section if any #}
+            {% set has_spotlight = false %}
+            {% for key, value in events.items() %}
+                {% for ev in value %}
+                    {% if ev.spotlight %}
+                        {% set has_spotlight = true %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+
+            {% if has_spotlight %}
+                <hr>
+                <h2 class="opportunity-text-padding">🔦 Spotlight</h2>
+                <hr>
+                <div>
+                <p>&#8203;</p>
+                {% for key, value in events.items() %}
+                    {% for data in value %}
+                        {% if data.spotlight %}
+                            <div>
+                                <h4><b>{{ data.title }}</b></h4>
+                                <p><b>Organiser/s: </b>{{ data.org }}</p>
+                                <p><b>Location: </b>{{ data.location }}</p>
+                                <p><b>Date: </b>{{ data.date }} {% if data.time %}{{ data.time }}{% endif %}</p>
+                                <p class="opportunity-text-padding">{{ data.summary }}</p>
+                                {% if data.source %}
+                                <a href="{{ data.source }}" target="_blank"><p><b>Source ↗</b></p></a>
+                                {% endif %}
+                            </div>
+                            <p>&#8203;</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                </div>
+            {% endif %}
+
+            {# Regular events #}
+            <hr>
+            <h2 class="opportunity-text-padding">🎪 Events</h2>
+            <hr>
+            <div>
+            <p>&#8203;</p>
+            {% for key, value in events.items() %}
+                {% for data in value %}
+                    {% if not data.spotlight %}
+                        <div>
+                            <h4><b>{{ data.title }}</b></h4>
+                            <p><b>Organiser/s: </b>{{ data.org }}</p>
+                            <p><b>Location: </b>{{ data.location }}</p>
+                            <p><b>Date: </b>{{ data.date }} {% if data.time %}{{ data.time }}{% endif %}</p>
+                            <p class="opportunity-text-padding">{{ data.summary }}</p>
+                            {% if data.source %}
+                            <a href="{{ data.source }}" target="_blank"><p><b>Source ↗</b></p></a>
+                            {% endif %}
+                        </div>
+                        <p>&#8203;</p>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if opportunities %}
+        {% if opportunities.get('Workshop') %}
+        <div class='event-cont'>
+            <hr>
+            <h2 class="opportunity-text-padding">🛠️ Workshops</h2>
+            <hr>
+            <div>
+            <p>&#8203;</p>
+            {% for data in opportunities.get('Workshop') %}
+                <div class='opp'>
+                    <h4><b>{{ data.title }}</b></h4>
+                    <p><b>Organiser/s: </b>{{ data.org }}</p>
+                    <p><b>Location: </b>{{ data.location }}</p>
+                    <p><b>Deadline:</b> {{ data.deadline_display }}</p>
+                    <p class="opportunity-text-padding">{{ data.summary }}</p>
+                    {% if data.source %}
+                    <a href="{{ data.source }}" target="_blank"><p><b>Source ↗</b></p></a>
+                    {% endif %}
+                    <p>&#8203;</p>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class='event-cont'>
+            <hr>
+            <h2 class="opportunity-text-padding">📖 Articles</h2>
+            <hr>
+            <div>
+            <p>&#8203;</p>
+            <div class="article-cont">
+                <p>No articles are available in this section yet.</p>
+            </div>
+            </div>
+        </div>
+
+        {% for type_name in ['Open Call', 'Residency', 'Funding'] %}
+        {% if opportunities.get(type_name) %}
+        <div class='event-cont'>
+            <hr>
+            <h2 class="opportunity-text-padding">
+                {% if type_name == 'Open Call' %}📯 Open Calls{% elif type_name == 'Residency' %}🏠 Residencies{% elif type_name == 'Funding' %}💰 Funding{% endif %}
+            </h2>
+            <hr>
+            <div>
+            <p>&#8203;</p>
+            {% for data in opportunities.get(type_name) %}
+                <div class='opp'>
+                    <h4><b>{{ data.title }}</b></h4>
+                    <p><b>Organiser/s: </b>{{ data.org }}</p>
+                    <p><b>Location: </b>{{ data.location }}</p>
+                    <p><b>Deadline:</b> {{ data.deadline_display }}</p>
+                    <p class="opportunity-text-padding">{{ data.summary }}</p>
+                    {% if data.source %}
+                    <a href="{{ data.source }}" target="_blank"><p><b>Source ↗</b></p></a>
+                    {% endif %}
+                    <p>&#8203;</p>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% else %}
+        <div class="article-cont">
+            <p>No opportunities were found for that date range.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="astr-line">&#x2732; &#x2732; &#x2732;</div>
+</div>
+
+<script>
+(function () {
+    const form = document.getElementById('opportunity-filter');
+    if (!form) {
+        return;
+    }
+
+    form.querySelectorAll('input[type="date"]').forEach((input) => {
+        input.addEventListener('change', () => form.submit());
+    });
+})();
+</script>
