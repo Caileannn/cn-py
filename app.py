@@ -1,22 +1,34 @@
-from flask import Flask, render_template, Response
 import requests
 import re
+import os
+from dotenv import load_dotenv
+from flask import Flask, render_template, Response, request
 from bs4 import BeautifulSoup, Comment
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
+
+from pocketbase_client import PocketBaseClient
+
+load_dotenv()
 
 class WikiApp(Flask):
     
     MEDIAWIKI_BASE_URL = 'https://wiki.conceptnull.org/'
     BASE_API = 'api.php?'
+    
+    POCKETBASE_URL = os.getenv("POCKETBASE_URL")
+    POCKETBASE_ADMIN_EMAIL = os.getenv("POCKETBASE_ADMIN_EMAIL")
+    POCKETBASE_ADMIN_PASSWORD = os.getenv("POCKETBASE_ADMIN_PASSWORD")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.pocketbase_client = PocketBaseClient()
                 
         # Define routes
         self.route('/', methods=['GET'])(self.home)
         self.route('/activities', methods=['GET'])(self.activities)
         self.route('/data', methods=['GET'])(self.data_int)
+        self.route('/opportunities', methods=['GET'])(self.opportunities_page)
         self.route('/generate-nl', methods=['GET'])(self.create_nl)
         self.route('/newsletter/<string:title>', methods=['GET'])(self.generate_newsletter)
         self.route('/<string:title>', methods=['GET'])(self.page_content)
@@ -55,6 +67,50 @@ class WikiApp(Flask):
        
     def data_int(self):
         return render_template('data.html')
+
+    def opportunities_page(self):
+        start_date = self._parse_input_date(request.args.get('start_date'))
+        end_date = self._parse_input_date(request.args.get('end_date'))
+
+        if start_date is None:
+            start_date = date.today()
+
+        if end_date is None:
+            end_date = start_date + timedelta(days=90)
+
+        if end_date < start_date:
+            start_date, end_date = end_date, start_date
+
+        # fetch events first
+        events = self.pocketbase_client.fetch_events(start_date, end_date)
+
+        opportunities = self.pocketbase_client.fetch_opportunities(start_date, end_date)
+        total_opportunities = sum(len(items) for items in opportunities.values())
+        range_label = f"Showing opportunities from {start_date.strftime('%d-%m-%Y')} to {end_date.strftime('%d-%m-%Y')}"
+
+        return render_template(
+            'opportunities.html',
+            nav_elements=self.get_nav_menu(),
+            title='Opportunities',
+            events=events,
+            opportunities=opportunities,
+            total_opportunities=total_opportunities,
+            start_date=start_date.isoformat(),
+            end_date=end_date.isoformat(),
+            range_label=range_label,
+        )
+
+    def _parse_input_date(self, value):
+        if not value:
+            return None
+
+        for fmt in ('%Y-%m-%d', '%d-%m-%Y', '%d/%m/%Y'):
+            try:
+                return datetime.strptime(value, fmt).date()
+            except ValueError:
+                continue
+
+        return None
     
     def create_nl(self):
         # Function for generating a newsletter
@@ -147,7 +203,11 @@ class WikiApp(Flask):
                             formatted_deadline = lol.strftime("%d-%m-%Y")
                             location = page_data['printouts']['Opportunities:Location'][0]
                             source = page_data['printouts']['Opportunities:Source'][0]
-                            org = page_data['printouts']['Opportunities:Organiser/s'][0]['fulltext']
+                            
+                            if 'Opportunities:Organiser/s' in page_data['printouts'] and page_data['printouts']['Opportunities:Organiser/s']:
+                                org = page_data['printouts']['Opportunities:Organiser/s'][0]['fulltext']
+                            else:
+                                org = "N/A"
                             
                             opp_info = {'pagetitle': page_title, 'name': name, 'deadline': formatted_deadline, 'location': location, 'source' : source, 'org': org, 'text': ''}
                             
@@ -225,7 +285,11 @@ class WikiApp(Flask):
                         
                         location = page_data['printouts']['Event:Location'][0]
                         source = page_data['printouts']['Event:Source'][0]
-                        org = page_data['printouts']['Event:Organiser/s'][0]['fulltext']
+                        
+                        if 'Event:Organiser/s' in page_data['printouts'] and page_data['printouts']['Event:Organiser/s']:
+                            org = page_data['printouts']['Event:Organiser/s'][0]['fulltext']
+                        else:
+                            org = "N/A"
                         
                         try:
                             spotlight = page_data['printouts']['Event:Spotlight'][0]
