@@ -116,17 +116,19 @@ class PocketBaseClient:
             return None
 
         if isinstance(value, datetime):
-            return value.date()
+            return value.astimezone().date() if value.tzinfo else value.date()
 
         if isinstance(value, date):
             return value
 
         if isinstance(value, str):
             try:
-                return datetime.fromisoformat(value.replace('Z', '+00:00')).date()
+                parsed = datetime.fromisoformat(value.replace('Z', '+00:00'))
+                return parsed.astimezone().date() if parsed.tzinfo else parsed.date()
             except ValueError:
                 try:
-                    return date_parser.parse(value, dayfirst=False).date()
+                    parsed = date_parser.parse(value, dayfirst=False)
+                    return parsed.astimezone().date() if parsed.tzinfo else parsed.date()
                 except (ValueError, OverflowError):
                     return None
 
@@ -264,17 +266,28 @@ class PocketBaseClient:
     def _parse_date(self, value):
         if value is None:
             return None
-
         if isinstance(value, datetime):
-            return value.date()
-
+            return value.astimezone().date() if value.tzinfo else value.date()
         if isinstance(value, date):
             return value
-
         if isinstance(value, str):
+            # Handle ISO 8601 / PocketBase timestamps first
             try:
-                return date_parser.parse(value, dayfirst=True).date()
+                parsed = datetime.fromisoformat(value.replace('Z', '+00:00'))
+                return parsed.astimezone().date() if parsed.tzinfo else parsed.date()
+            except ValueError:
+                pass
+
+            for fmt in ('%Y-%m-%d', '%Y/%m/%d', '%d-%m-%Y', '%d/%m/%Y'):
+                try:
+                    return datetime.strptime(value, fmt).date()
+                except ValueError:
+                    continue
+
+            try:
+                # dayfirst=False is safer for ambiguous dates
+                parsed = date_parser.parse(value, dayfirst=False)
+                return parsed.astimezone().date() if parsed.tzinfo else parsed.date()
             except (ValueError, OverflowError):
                 return None
-
         return None
