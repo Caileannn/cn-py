@@ -84,6 +84,8 @@ class WikiApp(Flask):
         # fetch events first
         events = self.pocketbase_client.fetch_events(start_date, end_date)
 
+        workshops = self.pocketbase_client.fetch_workshops(start_date, end_date)
+
         opportunities = self.pocketbase_client.fetch_opportunities(start_date, end_date)
         total_opportunities = sum(len(items) for items in opportunities.values())
         range_label = f"Showing opportunities from {start_date.strftime('%d-%m-%Y')} to {end_date.strftime('%d-%m-%Y')}"
@@ -93,6 +95,7 @@ class WikiApp(Flask):
             nav_elements=self.get_nav_menu(),
             title='Opportunities',
             events=events,
+            workshops=workshops,
             opportunities=opportunities,
             total_opportunities=total_opportunities,
             start_date=start_date.isoformat(),

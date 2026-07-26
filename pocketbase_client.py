@@ -32,7 +32,7 @@ class PocketBaseClient:
             if deadline is None:
                 continue
 
-            if start_date <= deadline <= end_date:
+            if start_date is not None and end_date is not None and start_date <= deadline <= end_date:
                 opportunities.append(opportunity)
 
         # canonicalize types into the four agreed categories
@@ -88,8 +88,12 @@ class PocketBaseClient:
                 continue
 
             # Only include events within the given range
-            if not (start_date <= parsed <= end_date):
+            if start_date is not None and end_date is not None and not (start_date <= parsed <= end_date):
                 continue
+
+            end_dt = record.get('end_datetime')
+            end_parsed = self._parse_event_datetime(end_dt) or self._parse_date(end_dt)
+            end_date = end_parsed.strftime('%d-%m-%Y') if end_parsed else None
 
             ev = {
                 'id': record.get('id'),
@@ -97,6 +101,7 @@ class PocketBaseClient:
                 'org': record.get('org') or record.get('organiser') or record.get('organization') or 'N/A',
                 'location': record.get('location') or 'N/A',
                 'date': parsed.strftime('%d-%m-%Y'),
+                'end_date': end_date,
                 'time': record.get('time') or record.get('date_time') and str(record.get('date_time')) or '',
                 'summary': record.get('summary') or record.get('description') or '',
                 'source': record.get('url') or record.get('source') or '',
@@ -109,6 +114,44 @@ class PocketBaseClient:
         events.sort(key=lambda x: x.get('date'))
         if events:
             return {'Events': events}
+        return {}
+
+    def fetch_workshops(self, start_date, end_date):
+        records = self._fetch_records_for_collection('Workshops')
+        workshops = []
+
+        for record in records:
+            dt = record.get('date') or record.get('datetime') or record.get('created')
+            parsed = self._parse_event_datetime(dt)
+            if parsed is None:
+                parsed = self._parse_date(record.get('deadline'))
+
+            if parsed is None:
+                continue
+
+            if start_date is not None and end_date is not None and not (start_date <= parsed <= end_date):
+                continue
+
+            end_dt = record.get('end_datetime')
+            end_parsed = self._parse_event_datetime(end_dt) or self._parse_date(end_dt)
+            end_date = end_parsed.strftime('%d-%m-%Y') if end_parsed else None
+
+            w = {
+                'id': record.get('id'),
+                'title': record.get('title') or record.get('name') or 'Untitled workshop',
+                'org': record.get('org') or record.get('organiser') or record.get('organization') or 'N/A',
+                'location': record.get('location') or 'N/A',
+                'date': parsed.strftime('%d-%m-%Y'),
+                'end_date': end_date,
+                'summary': record.get('summary') or record.get('description') or '',
+                'source': record.get('url') or record.get('source') or '',
+            }
+
+            workshops.append(w)
+
+        workshops.sort(key=lambda x: x.get('date'))
+        if workshops:
+            return {'Workshops': workshops}
         return {}
 
     def _parse_event_datetime(self, value):

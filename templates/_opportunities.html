@@ -45,7 +45,7 @@
                                 <h4><b>{{ data.title }}</b></h4>
                                 <p><b>Organiser/s: </b>{{ data.org }}</p>
                                 <p><b>Location: </b>{{ data.location }}</p>
-                                <p><b>Date: </b>{{ data.date }} {% if data.time %}{{ data.time }}{% endif %}</p>
+                                <p><b>Date: </b>{{ data.date }}{% if data.end_date %} – {{ data.end_date }}{% endif %} {% if data.time %}{{ data.time }}{% endif %}</p>
                                 <p class="opportunity-text-padding">{{ data.summary }}</p>
                                 {% if data.source %}
                                 <a href="{{ data.source }}" target="_blank"><p><b>Source ↗</b></p></a>
@@ -71,7 +71,7 @@
                             <h4><b>{{ data.title }}</b></h4>
                             <p><b>Organiser/s: </b>{{ data.org }}</p>
                             <p><b>Location: </b>{{ data.location }}</p>
-                            <p><b>Date: </b>{{ data.date }} {% if data.time %}{{ data.time }}{% endif %}</p>
+                            <p><b>Date: </b>{{ data.date }}{% if data.end_date %} – {{ data.end_date }}{% endif %} {% if data.time %}{{ data.time }}{% endif %}</p>
                             <p class="opportunity-text-padding">{{ data.summary }}</p>
                             {% if data.source %}
                             <a href="{{ data.source }}" target="_blank"><p><b>Source ↗</b></p></a>
@@ -83,6 +83,34 @@
             {% endfor %}
             </div>
         </div>
+        {% endif %}
+
+        {% if workshops %}
+        {% for key, value in workshops.items() %}
+        {% if value %}
+        <div class='event-cont'>
+            <hr>
+            <h2 class="opportunity-text-padding">🛠️ Workshops</h2>
+            <hr>
+            <div>
+            <p>&#8203;</p>
+            {% for data in value %}
+                <div>
+                    <h4><b>{{ data.title }}</b></h4>
+                    <p><b>Organiser/s: </b>{{ data.org }}</p>
+                    <p><b>Location: </b>{{ data.location }}</p>
+                    <p><b>Date: </b>{{ data.date }}{% if data.end_date %} – {{ data.end_date }}{% endif %}</p>
+                    <p class="opportunity-text-padding">{{ data.summary }}</p>
+                    {% if data.source %}
+                    <a href="{{ data.source }}" target="_blank"><p><b>Source ↗</b></p></a>
+                    {% endif %}
+                </div>
+                <p>&#8203;</p>
+            {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
         {% endif %}
 
         {% if opportunities %}
